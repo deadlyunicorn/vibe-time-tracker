@@ -33,10 +33,8 @@ export namespace Utils {
   export const getStartTimeFromDate = (startDate: Date): string => {
     const now = new Date();
 
-    const startTime = now.toISOString().split("T")[1].slice(0, 5);
+    const startTime = startDate.toString().split(" ").at(4)!.slice(0, 5);
     const { dayOfMonth, month } = getDateAttributes(startDate);
-
-    console.log(dayOfMonth + month);
 
     if (DateUtils.isDifferentDay(now, startDate)) {
       return `${dayOfMonth} ${month} at ${startTime}`;
