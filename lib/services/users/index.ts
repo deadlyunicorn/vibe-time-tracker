@@ -3,6 +3,8 @@
 import { UserIdKey } from "@/lib/consts";
 import { UserModel } from "@/lib/db/users/model";
 import { LoginBody } from "@/lib/interfaces/auth/interface";
+import { BaseResponse } from "@/lib/interfaces/interface";
+import { AddProjectBody } from "@/lib/interfaces/user/interface";
 
 export namespace UserService {
   export const login = async (body: LoginBody) => {
@@ -18,17 +20,21 @@ export namespace UserService {
       throw new Error("Login failed");
     }
 
-    const data = (await response.json()) as { userId: number };
+    const { data } = (await response.json()) as BaseResponse<{
+      userId: number;
+    }>;
     return data.userId;
   };
 
-  export const getCurrentUserId = (): string | null => {
+  export const getCurrentUserId = (): number | null => {
     const userId = localStorage.getItem(UserIdKey);
-    return userId ? String(userId) : null;
+    return userId ? Number(userId) : null;
   };
 
-  export const getInfo = async (userId: string) => {
-    const queryString = new URLSearchParams({ userId }).toString();
+  export const getInfo = async (userId: number) => {
+    const queryString = new URLSearchParams({
+      userId: String(userId),
+    }).toString();
 
     const response = await fetch(`/api/users/info?${queryString}`, {
       headers: {
@@ -39,6 +45,24 @@ export namespace UserService {
 
     if (!response.ok) {
       throw new Error("Failed to fetch user info");
+    }
+
+    const { data } = (await response.json()) as BaseResponse<UserModel>;
+
+    return data;
+  };
+
+  export const addProjectEntry = async (body: AddProjectBody) => {
+    const response = await fetch(`/api/users/add-project`, {
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to add new project");
     }
 
     return (await response.json()) as UserModel;

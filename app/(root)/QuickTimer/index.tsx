@@ -9,6 +9,7 @@ import { Clock, Play } from "lucide-react";
 import { VerticalInputWithLabelWrapper } from "@/components/VerticalInputWithLabelWrapper";
 import { ComboBox } from "@/components/ui/comboBox";
 import { Utils } from "@/lib/utils/index";
+import { UserService } from "@/lib/services/users";
 
 export const QuickTimer = () => {
   const store = useGlobalStore();
@@ -38,9 +39,19 @@ export const QuickTimer = () => {
     setDescription("");
   };
 
-  {
-    /* Quick Timer Start */
-  }
+  const handleAddNewProject = (project: string) => {
+    Utils.alertOnError(() => {
+      const userId = UserService.getCurrentUserId();
+      if (!userId) {
+        throw new Error("User is not logged in. User Id: " + userId);
+      }
+      return UserService.addProjectEntry({
+        project,
+        userId,
+      });
+    });
+  };
+
   return (
     <Card className="mb-6 w-full">
       <CardHeader>
@@ -57,9 +68,7 @@ export const QuickTimer = () => {
             onSelect={(value) => {
               setProject(value);
             }}
-            onNewEntry={(entry) => {
-              alert(entry);
-            }}
+            onNewEntry={handleAddNewProject}
           />
           <ComboBox
             entries={availableTopics.map(Utils.stringToLabelValue)}

@@ -19,7 +19,7 @@ export const GET = async (request: NextRequest) => {
     throw new Error("User not found");
   }
 
-  return new Response(JSON.stringify({ success: true, user }), {
+  return new Response(JSON.stringify({ success: true, data: user }), {
     headers: { "Content-Type": "application/json" },
   });
 };

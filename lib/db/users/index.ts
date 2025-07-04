@@ -23,4 +23,21 @@ export namespace UserRepository {
     const user = await usersCollection.findOne({ userId });
     return user;
   };
+
+  export const setProjectsForUser = async ({
+    userId,
+    projects,
+  }: {
+    userId: number;
+    projects: string[];
+  }) => {
+    const { usersCollection } = await getCollections();
+    const user = await usersCollection.updateOne(
+      { userId },
+      {
+        $set: { projects },
+      }
+    );
+    return user;
+  };
 }

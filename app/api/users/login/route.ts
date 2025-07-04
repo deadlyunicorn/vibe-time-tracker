@@ -28,7 +28,10 @@ export const POST = async (request: Request) => {
   }
 
   // Simulate a successful login response
-  return new Response(JSON.stringify({ success: true, userId: user.userId }), {
-    headers: { "Content-Type": "application/json" },
-  });
+  return new Response(
+    JSON.stringify({ success: true, data: { userId: user.userId } }),
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 };
