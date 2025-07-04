@@ -2,9 +2,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useGlobalStore } from "../../store";
-import { Utils } from "../../utils";
 import { Edit, Trash } from "lucide-react";
 import { TimeEntry } from "../../interface";
+import { Utils } from "@/lib/utils/index";
 
 export const EntriesView = () => {
   const store = useGlobalStore();

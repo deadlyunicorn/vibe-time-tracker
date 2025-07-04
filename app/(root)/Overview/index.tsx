@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -17,8 +18,8 @@ import { EntriesView } from "../Entries/EntriesView";
 import { useGlobalStore } from "../store";
 import { TimeEntry } from "../interface";
 import { useState } from "react";
-import { Utils } from "../utils";
 import { BarChart, Plus } from "lucide-react";
+import { Utils } from "@/lib/utils/index";
 
 export const Overview = () => {
   const store = useGlobalStore();

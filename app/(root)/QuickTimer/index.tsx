@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,7 +8,7 @@ import { useGlobalStore } from "../store";
 import { Clock, Play } from "lucide-react";
 import { VerticalInputWithLabelWrapper } from "@/components/VerticalInputWithLabelWrapper";
 import { ComboBox } from "@/components/ui/comboBox";
-import { Utils } from "../utils";
+import { Utils } from "@/lib/utils/index";
 
 export const QuickTimer = () => {
   const store = useGlobalStore();

@@ -1,5 +1,7 @@
 import prettyMs from "pretty-ms";
 import { DateUtils } from "./dateUtils";
+import { IAlert } from "@/components/AlertListener/interface";
+import { Events } from "../consts";
 
 /* eslint-disable @typescript-eslint/no-namespace */
 export namespace Utils {
@@ -57,5 +59,13 @@ export namespace Utils {
       label: value,
       value,
     };
+  };
+
+  export const dispatchAlert = (alert: IAlert) => {
+    const alertEvent = new CustomEvent(Events.Alert, {
+      detail: { alert },
+    });
+
+    window.dispatchEvent(alertEvent);
   };
 }

@@ -1,6 +1,8 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
 import { useGlobalStore } from "../store";
-import { Utils } from "../utils";
+import { Utils } from "@/lib/utils/index";
 
 export const Header = () => {
   const store = useGlobalStore();

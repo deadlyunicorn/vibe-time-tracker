@@ -1,20 +1,22 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { TimeEntry } from "../interface";
 import { generateNewEntry } from "./utils";
 import { useGlobalStore } from "../store";
-import { Utils } from "../utils";
 import { PassedTime } from "./PassedTime";
 import { Edit } from "lucide-react";
+import { TimeEntry } from "../interface";
+import { Utils } from "@/lib/utils/index";
 
-interface ActiveTimerProps {
-  onStopTimer: (newEntry: TimeEntry) => void;
-}
-
-export const ActiveTimer = ({ onStopTimer }: ActiveTimerProps) => {
+export const ActiveTimer = () => {
   const store = useGlobalStore();
   const timer = store.timer;
+
+  const onStopTimer = (newEntry: TimeEntry) => {
+    alert(newEntry.date);
+  };
 
   if (!timer) {
     return null;

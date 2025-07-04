@@ -1,5 +1,6 @@
+"use client";
+import { Utils } from "@/lib/utils/index";
 import { useEffect, useState } from "react";
-import { Utils } from "../../utils";
 
 export const PassedTime = ({ startTime }: { startTime: Date }) => {
   const [passedTime, setPassedTime] = useState(Utils.getPassedTime(startTime));
