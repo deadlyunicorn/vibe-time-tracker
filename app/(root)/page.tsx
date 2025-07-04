@@ -6,6 +6,7 @@ import { ActiveTimer } from "./ActiveTimer";
 import { QuickTimer } from "./QuickTimer";
 import { Overview } from "./Overview";
 import { AuthenticatedView } from "@/components/AuthenticatedView";
+import { StoreInitializer } from "./StoreInitializer";
 // import { Overview } from "./Overview";
 
 export default async function Home() {
@@ -68,6 +69,7 @@ export default async function Home() {
         <QuickTimer />
         <Overview />
       </div>
+      <StoreInitializer />
     </AuthenticatedView>
   );
 }

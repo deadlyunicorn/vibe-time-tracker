@@ -68,4 +68,9 @@ export namespace Utils {
 
     window.dispatchEvent(alertEvent);
   };
+
+  export const loadStringArray = (array: string[]) =>
+    (Array.isArray(array) ? array : []).filter(
+      (entry) => (entry ?? "").trim() != ""
+    );
 }

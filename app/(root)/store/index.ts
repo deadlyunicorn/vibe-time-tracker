@@ -5,6 +5,8 @@ import { devtools } from "zustand/middleware";
 import type {} from "@redux-devtools/extension"; // required for devtools typing
 import { TimeEntry } from "../interface";
 import { ITimer } from "../ActiveTimer/interface";
+import { UserModel } from "@/lib/db/users/model";
+import { Utils } from "@/lib/utils/index";
 
 interface IGlobalState {
   entries: TimeEntry[];
@@ -16,6 +18,7 @@ interface IGlobalState {
   setSelectedDate: (date: Date) => void;
   availableProjects: string[];
   availableTopics: string[];
+  initState: (user: UserModel) => void;
 }
 
 export const useGlobalStore = create<IGlobalState>()(
@@ -42,6 +45,15 @@ export const useGlobalStore = create<IGlobalState>()(
         })),
       availableProjects: [],
       availableTopics: [],
+      initState: (user) => {
+        const availableProjects = Utils.loadStringArray(user.projects);
+        const availableTopics = Utils.loadStringArray(user.topics);
+
+        set(() => ({
+          availableProjects,
+          availableTopics,
+        }));
+      },
     }),
     {
       name: "global-state",
