@@ -19,13 +19,21 @@ export const Authenticate = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            login({ username, password }).catch((error) => {
-              Utils.dispatchAlert({
-                summary: "Login Failed",
-                type: AlertType.Error,
-                description: error.message,
+            login({ username, password })
+              .catch((error) => {
+                Utils.dispatchAlert({
+                  summary: "Login Failed",
+                  type: AlertType.Error,
+                  description: error.message,
+                });
+              })
+              .then((_) => {
+                Utils.dispatchAlert({
+                  summary: "Login Successful",
+                  type: AlertType.Success,
+                  description: "You have logged in successfully.",
+                });
               });
-            });
           }}
           className="space-y-4"
         >

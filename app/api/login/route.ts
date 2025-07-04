@@ -1,4 +1,6 @@
+import { UserRepository } from "@/lib/db/users";
 import { LoginBody } from "@/lib/interfaces/auth/interface";
+import { AuthUtils } from "@/lib/utils/auth";
 import zod from "zod";
 
 const LoginSchema = zod.object({
@@ -11,11 +13,22 @@ const LoginSchema = zod.object({
 export const POST = async (request: Request) => {
   const body: LoginBody = await request.json();
   const { username, password } = LoginSchema.parse(body);
-  // Handle login logic here
-  console.log("Login:", { username, password });
+
+  const user = await UserRepository.getUserByUsername({ username });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const isPasswordValid = await AuthUtils.passwordMatchesDatabaseHash(
+    password,
+    user.passwordHash
+  );
+  if (!isPasswordValid) {
+    throw new Error("Invalid password");
+  }
 
   // Simulate a successful login response
-  return new Response(JSON.stringify({ success: true }), {
+  return new Response(JSON.stringify({ success: true, userId: user.userId }), {
     headers: { "Content-Type": "application/json" },
   });
 };

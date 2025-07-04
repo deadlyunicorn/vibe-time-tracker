@@ -5,11 +5,16 @@ const getUsers = async () => {
   return usersCollection.find({}).toArray();
 };
 
-export const createUser = async ({ username, password }) => {};
+const createUser = async ({ username, password }) => {};
 
-
-export const loginUser = async({ username, password }) => {
-  const { usersCollection } = await getCollections();
-  const user = await usersCollection.findOne({ username, password });
-  return user;
+export namespace UserRepository {
+  export const getUserByUsername = async ({
+    username,
+  }: {
+    username: string;
+  }) => {
+    const { usersCollection } = await getCollections();
+    const user = await usersCollection.findOne({ username });
+    return user;
+  };
 }
