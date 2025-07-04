@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode, useEffect, useState } from "react";
 import { Authenticate } from "./Authenticate";
-import { UserIdKey } from "@/lib/consts";
+import { UserService } from "@/lib/services/users";
 
 export const AuthenticatedView = ({ children }: { children: ReactNode }) => {
   // This is not an application that includes sensitive data.
@@ -10,7 +10,7 @@ export const AuthenticatedView = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const authenticated = localStorage.getItem(UserIdKey);
+    const authenticated = UserService.getCurrentUserId();
     setIsAuthenticated(!!authenticated);
   }, []);
 

@@ -17,4 +17,10 @@ export namespace UserRepository {
     const user = await usersCollection.findOne({ username });
     return user;
   };
+
+  export const getUserById = async ({ userId }: { userId: number }) => {
+    const { usersCollection } = await getCollections();
+    const user = await usersCollection.findOne({ userId });
+    return user;
+  };
 }
