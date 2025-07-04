@@ -1,5 +1,3 @@
-"use client";
-
 // import { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { ActiveTimer } from "./ActiveTimer";
@@ -7,9 +5,10 @@ import { ActiveTimer } from "./ActiveTimer";
 // import { useGlobalStore } from "./store";
 import { QuickTimer } from "./QuickTimer";
 import { Overview } from "./Overview";
+import { AuthenticatedView } from "@/components/AuthenticatedView";
 // import { Overview } from "./Overview";
 
-export default function Home() {
+export default async function Home() {
   // const store = useGlobalStore();
   // const entries = store.entries;
   // const [activeTimer, setActiveTimer] = useState<ITimer | null>(null)
@@ -41,8 +40,6 @@ export default function Home() {
   //     }
   // }, [activeTimer])
 
- 
-
   // const deleteEntry = (id: string) => {
   //     setEntries((prev) => prev.filter((entry) => entry.id !== id))
   // }
@@ -64,15 +61,13 @@ export default function Home() {
   // }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 lg:p-16 p-8">
-      <Header />
-      <ActiveTimer
-        onStopTimer={() => {
-          alert("Hello world");
-        }}
-      />
-      <QuickTimer />
-      <Overview />
-    </div>
+    <AuthenticatedView>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 lg:p-16 p-8">
+        <Header />
+        <ActiveTimer />
+        <QuickTimer />
+        <Overview />
+      </div>
+    </AuthenticatedView>
   );
 }
