@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useGlobalStore } from "../store";
 import { Clock, Play } from "lucide-react";
+import { VerticalInputWithLabelWrapper } from "@/components/VerticalInputWithLabelWrapper";
 
 export const QuickTimer = () => {
   const store = useGlobalStore();
@@ -21,13 +22,12 @@ export const QuickTimer = () => {
   const startTimer = () => {
     if (!project || !topic) return;
 
-    const now = new Date();
-    const timeString = now.toTimeString().slice(0, 5);
+    const startTime = new Date();
 
     store.startTimer({
       project,
       topic,
-      startTime: timeString,
+      startTime,
       description,
     });
 
@@ -50,7 +50,7 @@ export const QuickTimer = () => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div>
+          <VerticalInputWithLabelWrapper>
             <Label htmlFor="quick-project">Project</Label>
             <Input
               id="quick-project"
@@ -64,8 +64,8 @@ export const QuickTimer = () => {
                 <option key={p} value={p} />
               ))}
             </datalist>
-          </div>
-          <div>
+          </VerticalInputWithLabelWrapper>
+          <VerticalInputWithLabelWrapper>
             <Label htmlFor="quick-topic">Topic</Label>
             <Input
               id="quick-topic"
@@ -79,8 +79,9 @@ export const QuickTimer = () => {
                 <option key={t} value={t} />
               ))}
             </datalist>
-          </div>
-          <div>
+          </VerticalInputWithLabelWrapper>
+
+          <VerticalInputWithLabelWrapper>
             <Label htmlFor="quick-description">Description (optional)</Label>
             <Input
               id="quick-description"
@@ -88,7 +89,8 @@ export const QuickTimer = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-          </div>
+          </VerticalInputWithLabelWrapper>
+
           <div className="flex items-end">
             <Button
               onClick={startTimer}

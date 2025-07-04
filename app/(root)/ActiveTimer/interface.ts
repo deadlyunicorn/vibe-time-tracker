@@ -1,6 +1,6 @@
 export interface ITimer {
-    startTime: string;
-    endTime?: string;
+    startTime: Date;
+    endTime?: Date;
     topic: string;
     project: string;
     description: string;
