@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { UserIdKey } from "@/lib/consts";
 import { login } from "@/lib/services/users";
 import { Utils } from "@/lib/utils/index";
 import { Eye, EyeOff } from "lucide-react";
@@ -20,18 +21,21 @@ export const Authenticate = () => {
           onSubmit={(e) => {
             e.preventDefault();
             login({ username, password })
+              .then((userId) => {
+                Utils.dispatchAlert({
+                  summary: "Login Successful",
+                  type: AlertType.Success,
+                  description: "You have logged in successfully.",
+                });
+
+                localStorage.setItem(UserIdKey, String(userId));
+                window.location.reload();
+              })
               .catch((error) => {
                 Utils.dispatchAlert({
                   summary: "Login Failed",
                   type: AlertType.Error,
                   description: error.message,
-                });
-              })
-              .then((_) => {
-                Utils.dispatchAlert({
-                  summary: "Login Successful",
-                  type: AlertType.Success,
-                  description: "You have logged in successfully.",
                 });
               });
           }}

@@ -6,3 +6,5 @@ export enum RequestStatus {
   Successful = "successful",
   Unsuccessful = "unsuccessful",
 }
+
+export const UserIdKey = "userId";

@@ -13,5 +13,6 @@ export const login = async (body: LoginBody) => {
     throw new Error("Login failed");
   }
 
-  return response.json();
+  const data = (await response.json()) as { userId: number };
+  return data.userId;
 };
