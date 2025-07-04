@@ -36,23 +36,28 @@ export const AlertListener = ({ children }: { children: ReactNode }) => {
     <>
       {children}
 
-      {alerts.map((alert, index) => (
-        <Alert
-          variant={alert.type === "error" ? "destructive" : "default"}
-          onMouseOver={() => {
-            const updatedAlerts = alerts.map((alert, _index) =>
-              index == _index ? { ...alert, timestamp: Date.now() } : alert
-            );
-            setAlerts(updatedAlerts);
-          }}
-          key={`${index}_${alert.timestamp}`}
-          className="fixed w-[100vw] h-16 top-0"
-        >
-          <Terminal />
-          <AlertTitle>{alert.summary}</AlertTitle>
-          <AlertDescription>{alert.description}</AlertDescription>
-        </Alert>
-      ))}
+      <div className="fixed top-0 left-0  h-[100vh] w-[100vw] flex flex-col justify-end gap-4 py-4 pointer-events-none px-8">
+        {alerts.map((alert, index) => (
+          <Alert
+            variant={alert.type === "error" ? "destructive" : "default"}
+            onMouseOver={() => {
+              const updatedAlerts = alerts.map((alert, _index) =>
+                index == _index ? { ...alert, timestamp: Date.now() } : alert
+              );
+              setAlerts(updatedAlerts);
+            }}
+            key={`${index}_${alert.timestamp}`}
+            className={`border w-96 min-h-16 p-2 pointer-events-auto pb-8 relative`}
+          >
+            <Terminal />
+            <AlertTitle>{alert.summary}</AlertTitle>
+            <AlertDescription>{alert.description}</AlertDescription>
+            <span className="absolute left-0 bottom-0 text-xs m-2">
+              {new Date(alert.timestamp).toTimeString()}
+            </span>
+          </Alert>
+        ))}
+      </div>
     </>
   );
 };
