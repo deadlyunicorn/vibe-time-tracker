@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -14,6 +14,8 @@ interface IGlobalState {
   loadEntries: (entries: Array<TimeEntry>) => void;
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
+  availableProjects: string[];
+  availableTopics: string[];
 }
 
 export const useGlobalStore = create<IGlobalState>()(
@@ -38,6 +40,8 @@ export const useGlobalStore = create<IGlobalState>()(
         set(() => ({
           selectedDate: new Date(date),
         })),
+      availableProjects: [],
+      availableTopics: [],
     }),
     {
       name: "global-state",

@@ -53,4 +53,11 @@ export namespace Utils {
       secondsDecimalDigits: 0,
     });
   };
+
+  export const stringToLabelValue = (value: string) => {
+    return {
+      label: value,
+      value,
+    };
+  };
 }

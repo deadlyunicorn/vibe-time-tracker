@@ -6,18 +6,18 @@ import { useState } from "react";
 import { useGlobalStore } from "../store";
 import { Clock, Play } from "lucide-react";
 import { VerticalInputWithLabelWrapper } from "@/components/VerticalInputWithLabelWrapper";
+import { ComboBox } from "@/components/ui/comboBox";
+import { Utils } from "../utils";
 
 export const QuickTimer = () => {
   const store = useGlobalStore();
-
-  const entries = store.entries;
 
   const [project, setProject] = useState("");
   const [description, setDescription] = useState("");
   const [topic, setTopic] = useState("");
 
-  const allProjects = [...new Set(entries.map((entry) => entry.project))];
-  const allTopics = [...new Set(entries.map((entry) => entry.topic))];
+  const { availableProjects } = store;
+  const { availableTopics } = store;
 
   const startTimer = () => {
     if (!project || !topic) return;
@@ -50,36 +50,26 @@ export const QuickTimer = () => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <VerticalInputWithLabelWrapper>
-            <Label htmlFor="quick-project">Project</Label>
-            <Input
-              id="quick-project"
-              placeholder="Enter project name"
-              value={project}
-              onChange={(e) => setProject(e.target.value)}
-              list="projects"
-            />
-            <datalist id="projects">
-              {allProjects.map((p) => (
-                <option key={p} value={p} />
-              ))}
-            </datalist>
-          </VerticalInputWithLabelWrapper>
-          <VerticalInputWithLabelWrapper>
-            <Label htmlFor="quick-topic">Topic</Label>
-            <Input
-              id="quick-topic"
-              placeholder="Enter topic"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              list="topics"
-            />
-            <datalist id="topics">
-              {allTopics.map((t) => (
-                <option key={t} value={t} />
-              ))}
-            </datalist>
-          </VerticalInputWithLabelWrapper>
+          <ComboBox
+            entries={availableProjects.map(Utils.stringToLabelValue)}
+            title={"Project"}
+            onSelect={(value) => {
+              setProject(value);
+            }}
+            onNewEntry={(entry) => {
+              alert(entry);
+            }}
+          />
+          <ComboBox
+            entries={availableTopics.map(Utils.stringToLabelValue)}
+            title={"Topic"}
+            onSelect={(value) => {
+              setTopic(value);
+            }}
+            onNewEntry={(entry) => {
+              alert(entry);
+            }}
+          />
 
           <VerticalInputWithLabelWrapper>
             <Label htmlFor="quick-description">Description (optional)</Label>
