@@ -1,12 +1,13 @@
 import { Input } from "@/components/ui/input";
 import { useGlobalStore } from "../store";
+import { Utils } from "../utils";
 
 export const Header = () => {
   const store = useGlobalStore();
   const selectedDate = store.selectedDate;
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl w-full">
+    <div className="container w-full">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold">Time Tracker</h1>
@@ -16,12 +17,12 @@ export const Header = () => {
         </div>
         <div className="flex items-center gap-1">
           <h3>Viewing</h3>
-          {selectedDate.toDateString()}
           <div className="flex items-center gap-2">
             <Input
               type="date"
-              value={selectedDate.toDateString()}
+              value={Utils.dateToInputValue(selectedDate)}
               onChange={(e) => store.setSelectedDate(new Date(e.target.value))}
+              pattern=""
               className="w-auto"
             />
           </div>
