@@ -20,8 +20,8 @@ export const Authenticate = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            UserService.login({ username, password })
-              .then((userId) => {
+            Utils.alertOnError(() =>
+              UserService.login({ username, password }).then((userId) => {
                 Utils.dispatchAlert({
                   summary: "Login Successful",
                   type: AlertType.Success,
@@ -31,13 +31,7 @@ export const Authenticate = () => {
                 localStorage.setItem(UserIdKey, String(userId));
                 window.location.reload();
               })
-              .catch((error) => {
-                Utils.dispatchAlert({
-                  summary: "Login Failed",
-                  type: AlertType.Error,
-                  description: error.message,
-                });
-              });
+            );
           }}
           className="space-y-4"
         >

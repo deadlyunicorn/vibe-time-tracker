@@ -1,6 +1,6 @@
 import prettyMs from "pretty-ms";
 import { DateUtils } from "./dateUtils";
-import { IAlert } from "@/components/AlertListener/interface";
+import { AlertType, IAlert } from "@/components/AlertListener/interface";
 import { Events } from "../consts";
 
 /* eslint-disable @typescript-eslint/no-namespace */
@@ -67,6 +67,18 @@ export namespace Utils {
     });
 
     window.dispatchEvent(alertEvent);
+  };
+
+  export const alertOnError = async <T>(cb: () => Promise<T> | T) => {
+    try {
+      return await cb();
+    } catch (error) {
+      Utils.dispatchAlert({
+        summary: error instanceof Error ? error.message : "Unexpected error",
+        type: AlertType.Error,
+        description: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
   };
 
   export const loadStringArray = (array: string[]) =>
