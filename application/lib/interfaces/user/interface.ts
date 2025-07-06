@@ -7,3 +7,10 @@ export interface AddTopicBody {
   userId: number;
   topic: string;
 }
+
+export interface CreateEntryBody {
+  userId: number;
+  entry: TimeEntry;
+}
+
+

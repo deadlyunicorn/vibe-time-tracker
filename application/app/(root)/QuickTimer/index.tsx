@@ -16,27 +16,55 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { EntryService } from "@/lib/services/entries";
+import { TimeEntry } from "../interface";
 
 export const QuickTimer = () => {
   const store = useGlobalStore();
 
   const [project, setProject] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState<string>("");
   const [topic, setTopic] = useState("");
 
   const { availableProjects } = store;
   const { availableTopics } = store;
 
-  const startTimer = () => {
+  const handleStartTimer = () => {
     if (!project || !topic) return;
 
-    const startTime = new Date();
+    const startTime = new Date().getTime();
 
-    store.startTimer({
-      project,
-      topic,
-      startTime,
-      description,
+    Utils.alertOnError(() => {
+      const userId = UserService.getCurrentUserId();
+      if (!userId) {
+        throw new Error("User is not logged in. User Id: " + userId);
+      }
+
+      const timer: TimeEntry = {
+        project,
+        topic,
+        startTime,
+        description,
+      };
+
+      return EntryService.create({
+        userId,
+        entry: {
+          ...timer,
+          description: Utils.makeUndefinedIfEmpty(description),
+        },
+      })
+        .then((response) => {
+          Utils.dispatchAlert({
+            summary: "Success",
+            type: AlertType.Success,
+            description: "Timer started successfully",
+          });
+          return response;
+        })
+        .then(() => {
+          store.startTimer(timer);
+        });
     });
 
     // Clear form
