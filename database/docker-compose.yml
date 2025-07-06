@@ -1,0 +1,41 @@
+services:
+  mongo:
+    container_name: time-tracker-db
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-data:/data/db
+    env_file:
+      - mongo-sync/.env
+    networks:
+      - default
+
+  mongo-sync-loop:
+    build: ./mongo-sync
+    env_file:
+      - mongo-sync/.env
+    depends_on:
+      - mongo
+    entrypoint: >
+      sh -c "
+        while true; do
+          bun ./index.ts
+          sleep 600;
+        done
+      "
+
+networks:
+  default:
+    driver: bridge
+
+## ENV File requires the following
+## 
+
+## REMOTE_URI
+## LOCAL_URI
+## MONGO_INITDB_ROOT_USERNAME
+## MONGO_INITDB_ROOT_PASSWORD
+
+##
