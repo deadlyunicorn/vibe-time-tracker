@@ -3,19 +3,49 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { generateNewEntry } from "./utils";
 import { useGlobalStore } from "../store";
 import { PassedTime } from "./PassedTime";
 import { Edit } from "lucide-react";
-import { TimeEntry } from "../interface";
 import { Utils } from "@/lib/utils/index";
+import { UserService } from "@/lib/services/users";
+import { EntryService } from "@/lib/services/entries";
+import { AlertType } from "@/components/AlertListener/interface";
 
 export const ActiveTimer = () => {
   const store = useGlobalStore();
   const timer = store.timer;
 
-  const onStopTimer = (newEntry: TimeEntry) => {
-    alert(newEntry.date);
+  const onStopTimer = () => {
+    if (!timer) return;
+
+    const endTime = new Date().getTime();
+
+    Utils.alertOnError(() => {
+      const userId = UserService.getCurrentUserId();
+      if (!userId) {
+        throw new Error("User is not logged in. User Id: " + userId);
+      }
+
+      return EntryService.finalize({
+        entry: {
+          ...timer,
+          endTime,
+          description: Utils.makeUndefinedIfEmpty(timer.description),
+        },
+        userId,
+      })
+        .then((response) => {
+          Utils.dispatchAlert({
+            summary: "Success",
+            type: AlertType.Success,
+            description: "Entry stored successfully",
+          });
+          return response;
+        })
+        .then(() => {
+          store.finalizeTimer(timer);
+        });
+    });
   };
 
   if (!timer) {
@@ -31,7 +61,7 @@ export const ActiveTimer = () => {
               <div className="gap-1 flex">
                 <span className="font-medium">Timer running since:</span>
                 <span className="font-bold">
-                  {Utils.getStartTimeFromDate(timer.startTime)}
+                  {Utils.getStartTimeFromDate(new Date(timer.startTime))}
                 </span>
               </div>
             </div>
@@ -60,22 +90,10 @@ export const ActiveTimer = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Button
-              onClick={() => {
-                const newEntry = generateNewEntry({
-                  activeTimer: timer,
-                  selectedDate: new Date().toISOString().split("T")[0],
-                });
-                if (newEntry) {
-                  onStopTimer(newEntry);
-                }
-              }}
-              variant="destructive"
-              size="sm"
-            >
+            <Button onClick={onStopTimer} variant="destructive" size="sm">
               Stop Timer
             </Button>
-            <PassedTime startTime={timer.startTime} />
+            <PassedTime startTime={new Date(timer.startTime)} />
           </div>
         </div>
       </CardContent>

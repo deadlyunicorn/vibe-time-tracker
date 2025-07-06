@@ -20,6 +20,7 @@ interface IGlobalState {
   initState: (user: UserModel, activeTimer?: TimeEntry) => void;
   shouldRestartState: boolean;
   restartState: () => void;
+  finalizeTimer: (timer: TimeEntry) => void;
 }
 
 export const useGlobalStore = create<IGlobalState>()(
@@ -30,6 +31,14 @@ export const useGlobalStore = create<IGlobalState>()(
         set(() => ({
           timer: timer,
         })),
+      finalizeTimer: (timer: TimeEntry) => {
+        if (!timer) {
+          return;
+        }
+        set(() => ({
+          timer: null,
+        }));
+      },
       entries: [],
       addEntry: (entry) =>
         set((state) => ({

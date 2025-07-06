@@ -15,6 +15,10 @@ export interface CreateEntryBody {
   entry: TimeEntry;
 }
 
+export interface FinalizeEntryBody {
+  userId: number;
+  entry: TimeEntry & { endTime: number };
+}
 
 export interface GetActiveTimerParams {
   userId: number;

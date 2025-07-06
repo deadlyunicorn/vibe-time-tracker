@@ -25,6 +25,24 @@ export namespace EntryService {
     return data;
   };
 
+  export const finalize = async (body: FinalizeEntryBody) => {
+    const response = await fetch(`/api/entries/finalize`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw parseErrorFromResponse(await response.json());
+    }
+
+    const { data } = (await response.json()) as BaseResponse<EntryModel>;
+
+    return data;
+  };
+
   export const getActiveTimer = async (userId: number) => {
     const queryString = new URLSearchParams({
       userId: String(userId),

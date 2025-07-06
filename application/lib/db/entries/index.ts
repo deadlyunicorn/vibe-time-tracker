@@ -19,6 +19,20 @@ export namespace TimersRepository {
     });
   };
 
+  export const finalize = async (userId: number, timer: TimeEntry) => {
+    const { entriesCollection } = await getCollections();
+
+    return await entriesCollection.updateOne(
+      { userId, startTime: timer.startTime },
+      {
+        $set: {
+          endTime: timer.endTime,
+          updatedAt: Date.now(),
+        },
+      }
+    );
+  };
+}
 
 const getEntries = async () => {
   const { entriesCollection } = await getCollections();
