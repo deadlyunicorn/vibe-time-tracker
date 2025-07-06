@@ -11,6 +11,11 @@ import { ComboBox } from "@/components/ui/comboBox";
 import { Utils } from "@/lib/utils/index";
 import { UserService } from "@/lib/services/users";
 import { AlertType } from "@/components/AlertListener/interface";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const QuickTimer = () => {
   const store = useGlobalStore();
@@ -121,16 +126,21 @@ export const QuickTimer = () => {
             />
           </VerticalInputWithLabelWrapper>
 
-          <div className="flex items-end">
-            <Button
-              onClick={startTimer}
-              disabled={!project || !topic || !!store.timer}
-              className="w-full"
-            >
-              <Play className="w-4 h-4 mr-2" />
-              Start Timer
-            </Button>
-          </div>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div>
+                <Button
+                  onClick={handleStartTimer}
+                  disabled={!project || !topic || !!store.timer}
+                  className="w-full"
+                >
+                  <Play className="w-4 h-4 mr-2" />
+                  Start Timer
+                </Button>
+              </div>
+            </TooltipTrigger>
+            {!!store.timer && <TooltipContent>Timer is active</TooltipContent>}
+          </Tooltip>
         </div>
       </CardContent>
     </Card>
