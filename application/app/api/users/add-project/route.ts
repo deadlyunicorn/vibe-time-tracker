@@ -1,5 +1,5 @@
 import { UserRepository } from "@/lib/db/users";
-import { withErrorHandling } from "@/lib/errors";
+import { ClientFriendlyError, withErrorHandling } from "@/lib/errors";
 import { AddProjectBody } from "@/lib/interfaces/user/interface";
 import zod, { ZodError } from "zod";
 
@@ -14,12 +14,20 @@ export const POST = withErrorHandling(async (request) => {
 
   const user = await UserRepository.getUserById({ userId });
   if (!user) {
-    throw new Error("User not found");
+    throw new ClientFriendlyError(
+      "Not found",
+      "Your user entry was not found in the database. Are you logged in?",
+      404
+    );
   }
 
   const projects = user.projects;
   if (projects.includes(project)) {
-    throw new Error("Project already exists for this user");
+    throw new ClientFriendlyError(
+      "Already exists",
+      "Project already exists for this user",
+      401
+    );
   }
 
   projects.push(project);

@@ -74,7 +74,7 @@ export namespace Utils {
       return await cb();
     } catch (error) {
       Utils.dispatchAlert({
-        summary: error instanceof Error ? error.message : "Unexpected error",
+        summary: error instanceof Error ? error.name : "Unexpected error",
         type: AlertType.Error,
         description: error instanceof Error ? error.message : "Unknown error",
       });

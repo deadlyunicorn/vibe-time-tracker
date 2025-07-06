@@ -2,6 +2,7 @@
 
 import { UserIdKey } from "@/lib/consts";
 import { UserModel } from "@/lib/db/users/model";
+import { parseErrorFromResponse } from "@/lib/errors";
 import { LoginBody } from "@/lib/interfaces/auth/interface";
 import { BaseResponse } from "@/lib/interfaces/interface";
 import { AddProjectBody } from "@/lib/interfaces/user/interface";
@@ -62,7 +63,7 @@ export namespace UserService {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to add new project");
+      throw parseErrorFromResponse(await response.json());
     }
 
     return (await response.json()) as UserModel;

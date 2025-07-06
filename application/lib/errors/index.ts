@@ -18,7 +18,7 @@ const trustedErrorHandle = (error: unknown) => {
   if (error instanceof ZodError) {
     return {
       name: "Validation error",
-      message: error.message,
+      message: JSON.parse(error.message)[0].message,
       status: 500,
     };
   }
@@ -34,11 +34,36 @@ const trustedErrorHandle = (error: unknown) => {
 };
 
 export const withErrorHandling =
-  async (handler: (request: Request) => Promise<Response>) =>
+  (handler: (request: Request) => Promise<Response>) =>
   async (request: Request) => {
     try {
       return await handler(request);
     } catch (error) {
-      trustedErrorHandle(error);
+      console.warn(error);
+
+      const { status, ...body } = trustedErrorHandle(error);
+
+      return new Response(JSON.stringify(body), {
+        headers: { "Content-Type": "application/json" },
+        status,
+      });
     }
   };
+
+export const parseErrorFromResponse = (json: unknown) => {
+  if (
+    typeof json !== "object" ||
+    json === null ||
+    !Object.keys(json).includes("name") ||
+    !Object.keys(json).includes("message")
+  ) {
+    return new ClientFriendlyError("Unknown error", "Unexpected error");
+  }
+
+  const validatedJson = json as { name: string; message: string };
+
+  return new ClientFriendlyError(
+    validatedJson["name"]!,
+    validatedJson["message"]!
+  );
+};
