@@ -1,11 +1,12 @@
 import { UserRepository } from "@/lib/db/users";
 import { ClientFriendlyError, withErrorHandling } from "@/lib/errors";
 import { AddTopicBody } from "@/lib/interfaces/user/interface";
+import { TopicValidator, UserIdValidator } from "@/lib/validators";
 import zod from "zod";
 
 const TopicSchema = zod.object({
-  userId: zod.number().min(1, "User ID is required"),
-  topic: zod.string().min(6, "Topic should be at least 6 characters long"),
+  userId: UserIdValidator,
+  topic: TopicValidator,
 });
 
 export const POST = withErrorHandling(async (request) => {

@@ -18,7 +18,7 @@ export namespace UserService {
     });
 
     if (!response.ok) {
-      throw new Error("Login failed");
+      throw parseErrorFromResponse(await response.json());
     }
 
     const { data } = (await response.json()) as BaseResponse<{
@@ -45,7 +45,7 @@ export namespace UserService {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch user info");
+      throw parseErrorFromResponse(await response.json());
     }
 
     const { data } = (await response.json()) as BaseResponse<UserModel>;

@@ -85,4 +85,27 @@ export namespace Utils {
     (Array.isArray(array) ? array : []).filter(
       (entry) => (entry ?? "").trim() != ""
     );
+
+  export const makeUndefinedIfEmpty = (text: string | undefined) => {
+    if (!text) {
+      return undefined;
+    }
+
+    if (text.trim() == "") {
+      return undefined;
+    }
+    return text;
+  };
+
+  export const assertValidNumber = (_item: unknown) => {
+    const item = Number(_item);
+    if (!item) {
+      throw new Error("Not item provided");
+    }
+    if (Number.isNaN(item)) {
+      throw new Error("Item is not a number");
+    }
+
+    return item as number;
+  };
 }

@@ -1,11 +1,12 @@
 import { UserRepository } from "@/lib/db/users";
 import { ClientFriendlyError, withErrorHandling } from "@/lib/errors";
 import { AddProjectBody } from "@/lib/interfaces/user/interface";
-import zod, { ZodError } from "zod";
+import { ProjectValidator, UserIdValidator } from "@/lib/validators";
+import zod from "zod";
 
 const ProjectSchema = zod.object({
-  userId: zod.number().min(1, "User ID is required"),
-  project: zod.string().min(6, "Project should be at least 6 characters long"),
+  userId: UserIdValidator,
+  project: ProjectValidator,
 });
 
 export const POST = withErrorHandling(async (request) => {

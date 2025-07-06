@@ -1,12 +1,11 @@
 import { Utils } from "@/lib/utils/index";
 import { TimeEntry } from "../../interface";
-import { ITimer } from "../interface";
 
 export const generateNewEntry = ({
   activeTimer,
   selectedDate,
 }: {
-  activeTimer: ITimer;
+  activeTimer: TimeEntry;
   selectedDate: string;
 }): TimeEntry | undefined => {
   if (!activeTimer) return;

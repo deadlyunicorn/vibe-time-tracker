@@ -1,3 +1,4 @@
+import { NextRequest } from "next/server";
 import { ZodError } from "zod";
 
 export class ClientFriendlyError extends Error {
@@ -34,8 +35,8 @@ const trustedErrorHandle = (error: unknown) => {
 };
 
 export const withErrorHandling =
-  (handler: (request: Request) => Promise<Response>) =>
-  async (request: Request) => {
+  (handler: (request: NextRequest) => Promise<Response>) =>
+  async (request: NextRequest) => {
     try {
       return await handler(request);
     } catch (error) {
