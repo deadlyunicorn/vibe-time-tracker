@@ -19,6 +19,8 @@ interface IGlobalState {
   availableProjects: string[];
   availableTopics: string[];
   initState: (user: UserModel) => void;
+  shouldRestartState: boolean;
+  restartState: () => void;
 }
 
 export const useGlobalStore = create<IGlobalState>()(
@@ -52,6 +54,12 @@ export const useGlobalStore = create<IGlobalState>()(
         set(() => ({
           availableProjects,
           availableTopics,
+        }));
+      },
+      shouldRestartState: false,
+      restartState: () => {
+        set((state) => ({
+          shouldRestartState: !state.shouldRestartState,
         }));
       },
     }),

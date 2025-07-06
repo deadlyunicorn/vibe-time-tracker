@@ -6,6 +6,7 @@ import { UserService } from "@/lib/services/users";
 
 export const StoreInitializer = () => {
   const store = useGlobalStore();
+  const shouldRestartState = store.shouldRestartState;
 
   useEffect(() => {
     const userId = UserService.getCurrentUserId();
@@ -16,7 +17,7 @@ export const StoreInitializer = () => {
     UserService.getInfo(userId).then((user) => {
       store.initState(user);
     });
-  }, []);
+  }, [shouldRestartState]);
 
   return null;
 };

@@ -10,6 +10,7 @@ import { VerticalInputWithLabelWrapper } from "@/components/VerticalInputWithLab
 import { ComboBox } from "@/components/ui/comboBox";
 import { Utils } from "@/lib/utils/index";
 import { UserService } from "@/lib/services/users";
+import { AlertType } from "@/components/AlertListener/interface";
 
 export const QuickTimer = () => {
   const store = useGlobalStore();
@@ -48,7 +49,16 @@ export const QuickTimer = () => {
       return UserService.addProjectEntry({
         project,
         userId,
+      }).then((response) => {
+        Utils.dispatchAlert({
+          summary: "Success",
+          type: AlertType.Success,
+          description: "Project added successfully",
+        });
+        return response;
       });
+    }).finally(() => {
+      store.restartState();
     });
   };
 
