@@ -1,13 +1,14 @@
 import { UserRepository } from "@/lib/db/users";
+import { withErrorHandling } from "@/lib/errors";
 import { AddProjectBody } from "@/lib/interfaces/user/interface";
-import zod from "zod";
+import zod, { ZodError } from "zod";
 
 const ProjectSchema = zod.object({
   userId: zod.number().min(1, "User ID is required"),
   project: zod.string().min(6, "Project should be at least 6 characters long"),
 });
 
-export const POST = async (request: Request) => {
+export const POST = withErrorHandling(async (request) => {
   const body: AddProjectBody = await request.json();
   const { project, userId } = ProjectSchema.parse(body);
 
@@ -34,4 +35,4 @@ export const POST = async (request: Request) => {
       headers: { "Content-Type": "application/json" },
     }
   );
-};
+});
