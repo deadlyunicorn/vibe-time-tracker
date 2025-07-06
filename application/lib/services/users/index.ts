@@ -5,7 +5,7 @@ import { UserModel } from "@/lib/db/users/model";
 import { parseErrorFromResponse } from "@/lib/errors";
 import { LoginBody } from "@/lib/interfaces/auth/interface";
 import { BaseResponse } from "@/lib/interfaces/interface";
-import { AddProjectBody } from "@/lib/interfaces/user/interface";
+import { AddProjectBody, AddTopicBody } from "@/lib/interfaces/user/interface";
 
 export namespace UserService {
   export const login = async (body: LoginBody) => {
@@ -55,6 +55,22 @@ export namespace UserService {
 
   export const addProjectEntry = async (body: AddProjectBody) => {
     const response = await fetch(`/api/users/add-project`, {
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw parseErrorFromResponse(await response.json());
+    }
+
+    return (await response.json()) as UserModel;
+  };
+
+  export const addTopicEntry = async (body: AddTopicBody) => {
+    const response = await fetch(`/api/users/add-topic`, {
       body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",

@@ -62,6 +62,28 @@ export const QuickTimer = () => {
     });
   };
 
+  const handleAddNewTopic = (topic: string) => {
+    Utils.alertOnError(() => {
+      const userId = UserService.getCurrentUserId();
+      if (!userId) {
+        throw new Error("User is not logged in. User Id: " + userId);
+      }
+      return UserService.addTopicEntry({
+        topic,
+        userId,
+      }).then((response) => {
+        Utils.dispatchAlert({
+          summary: "Success",
+          type: AlertType.Success,
+          description: "Topic added successfully",
+        });
+        return response;
+      });
+    }).then(() => {
+      store.restartState();
+    });
+  };
+
   return (
     <Card className="mb-6 w-full">
       <CardHeader>
@@ -86,9 +108,7 @@ export const QuickTimer = () => {
             onSelect={(value) => {
               setTopic(value);
             }}
-            onNewEntry={(entry) => {
-              alert(entry);
-            }}
+            onNewEntry={handleAddNewTopic}
           />
 
           <VerticalInputWithLabelWrapper>

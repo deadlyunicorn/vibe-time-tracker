@@ -40,4 +40,21 @@ export namespace UserRepository {
     );
     return user;
   };
+
+  export const setTopicsForUser = async ({
+    userId,
+    topics,
+  }: {
+    userId: number;
+    topics: string[];
+  }) => {
+    const { usersCollection } = await getCollections();
+    const user = await usersCollection.updateOne(
+      { userId },
+      {
+        $set: { topics },
+      }
+    );
+    return user;
+  };
 }
