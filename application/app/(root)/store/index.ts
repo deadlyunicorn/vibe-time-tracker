@@ -4,21 +4,20 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import type {} from "@redux-devtools/extension"; // required for devtools typing
 import { TimeEntry } from "../interface";
-import { ITimer } from "../ActiveTimer/interface";
 import { UserModel } from "@/lib/db/users/model";
 import { Utils } from "@/lib/utils/index";
 
 interface IGlobalState {
   entries: TimeEntry[];
-  timer: ITimer | null;
-  startTimer: (timer: ITimer) => void;
+  timer: TimeEntry | null;
+  startTimer: (timer: TimeEntry) => void;
   addEntry: (entry: TimeEntry) => void;
   loadEntries: (entries: Array<TimeEntry>) => void;
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
   availableProjects: string[];
   availableTopics: string[];
-  initState: (user: UserModel) => void;
+  initState: (user: UserModel, activeTimer?: TimeEntry) => void;
   shouldRestartState: boolean;
   restartState: () => void;
 }
@@ -27,7 +26,7 @@ export const useGlobalStore = create<IGlobalState>()(
   devtools(
     (set) => ({
       timer: null,
-      startTimer: (timer: ITimer) =>
+      startTimer: (timer: TimeEntry) =>
         set(() => ({
           timer: timer,
         })),
@@ -47,13 +46,14 @@ export const useGlobalStore = create<IGlobalState>()(
         })),
       availableProjects: [],
       availableTopics: [],
-      initState: (user) => {
+      initState: (user: UserModel, activeTimer: undefined | TimeEntry) => {
         const availableProjects = Utils.loadStringArray(user.projects);
         const availableTopics = Utils.loadStringArray(user.topics);
-
+        const timer = activeTimer;
         set(() => ({
           availableProjects,
           availableTopics,
+          timer,
         }));
       },
       shouldRestartState: false,

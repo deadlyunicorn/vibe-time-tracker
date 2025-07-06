@@ -1,3 +1,5 @@
+import { TimeEntry } from "@/app/(root)/interface";
+
 export interface AddProjectBody {
   userId: number;
   project: string;
@@ -14,3 +16,6 @@ export interface CreateEntryBody {
 }
 
 
+export interface GetActiveTimerParams {
+  userId: number;
+}

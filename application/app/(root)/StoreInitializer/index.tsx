@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useGlobalStore } from "../store";
 import { UserService } from "@/lib/services/users";
+import { EntryService } from "@/lib/services/entries";
 
 export const StoreInitializer = () => {
   const store = useGlobalStore();
@@ -14,8 +15,11 @@ export const StoreInitializer = () => {
       return;
     }
 
-    UserService.getInfo(userId).then((user) => {
-      store.initState(user);
+    Promise.all([
+      UserService.getInfo(userId),
+      EntryService.getActiveTimer(userId),
+    ]).then(([user, timer]) => {
+      store.initState(user, timer);
     });
   }, [shouldRestartState]);
 

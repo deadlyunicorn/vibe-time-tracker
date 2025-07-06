@@ -24,4 +24,25 @@ export namespace EntryService {
 
     return data;
   };
+
+  export const getActiveTimer = async (userId: number) => {
+    const queryString = new URLSearchParams({
+      userId: String(userId),
+    }).toString();
+
+    const response = await fetch(`/api/entries/get-active?${queryString}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw parseErrorFromResponse(await response.json());
+    }
+
+    const { data } = (await response.json()) as BaseResponse<EntryModel>;
+
+    return data;
+  };
 }
