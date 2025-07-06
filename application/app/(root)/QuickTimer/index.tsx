@@ -57,7 +57,7 @@ export const QuickTimer = () => {
         });
         return response;
       });
-    }).finally(() => {
+    }).then(() => {
       store.restartState();
     });
   };
