@@ -61,14 +61,52 @@ export namespace Utils {
   };
 
   export const assertValidNumber = (_item: unknown) => {
-    const item = Number(_item);
-    if (!item) {
-      throw new Error("Not item provided");
+    if (_item === undefined || _item === null) {
+      throw new Error("No item provided");
     }
+    const item = Number(_item);
+
     if (Number.isNaN(item)) {
       throw new Error("Item is not a number");
     }
 
     return item as number;
+  };
+
+  export const assertValidNumberWithFallback = (
+    _item: unknown,
+    fallback: number
+  ) => {
+    try {
+      return assertValidNumber(_item);
+    } catch (error) {
+      console.warn(error);
+      return fallback;
+    }
+  };
+
+  export const objectValuesToString = (object: Record<string, unknown>) => {
+    return Object.fromEntries(
+      Object.entries(object).map(([key, value]) => [key, String(value)])
+    );
+  };
+
+  export const pagesToLimits = ({
+    entriesPerPage,
+    currentPage,
+  }: {
+    entriesPerPage: number;
+    /**
+     * Assuming the first page has an index of 0
+     */
+    currentPage: number;
+  }) => {
+    const limit = entriesPerPage;
+    const skip = currentPage * entriesPerPage;
+
+    return {
+      limit,
+      skip,
+    };
   };
 }
