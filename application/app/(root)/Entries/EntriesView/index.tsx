@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useGlobalStore } from "../../store";
 import { Edit, Trash } from "lucide-react";
 import { TimeEntry } from "../../interface";
-import { Utils } from "@/lib/utils/index";
+import prettyMs from "pretty-ms";
+import { TimeUtils } from "@/lib/utils/timeUtils";
 
 export const EntriesView = () => {
   const store = useGlobalStore();
@@ -14,12 +15,12 @@ export const EntriesView = () => {
     alert(entry);
   };
 
-  const deleteEntry = (id: string) => {
+  const deleteEntry = (id: number) => {
     alert(id);
   };
 
   return entries.map((entry) => (
-    <Card key={entry.id}>
+    <Card key={entry.startTime}>
       <CardContent className="pt-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -30,10 +31,16 @@ export const EntriesView = () => {
               </div>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <span>
-                  {entry.startTime} - {entry.endTime}
+                  {TimeUtils.getStartTimeFromDate(new Date(entry.startTime))}{" "}
+                  -&nbsp;
+                  {entry.endTime
+                    ? TimeUtils.getStartTimeFromDate(new Date(entry.endTime))
+                    : "..."}
                 </span>
                 <span className="font-medium">
-                  {Utils.formatDuration(entry.duration)}
+                  {entry.endTime
+                    ? prettyMs(entry.endTime - entry.startTime)
+                    : "Not stopped"}
                 </span>
               </div>
               {entry.description && (
@@ -48,7 +55,7 @@ export const EntriesView = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => deleteEntry(entry.id)}
+              onClick={() => deleteEntry(entry.startTime)}
             >
               <Trash className="w-4 h-4" />
             </Button>
