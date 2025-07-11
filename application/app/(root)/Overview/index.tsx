@@ -33,70 +33,71 @@ export const Overview = () => {
   const [endTime, setEndTime] = useState("");
   const [startTime, setStartTime] = useState("");
 
+  // const addEntry = () => {
+  //   if (!project || !topic || !startTime || !endTime) return;
+
+  //   // const duration = Utils.calculateDuration(startTime, endTime);
+
+  //   if (editingEntry) {
+  //     const newEntries = entries.map((entry) =>
+  //       editingEntry
+  //         ? {
+  //             ...entry,
+  //             project,
+  //             topic,
+  //             startTime,
+  //             endTime,
+  //             description,
+  //           }
+  //         : entry
+  //     );
+
+  //     // store.loadEntries(newEntries);
+
+  //     setEditingEntry(null);
+  //   } else {
+  //     const newEntry: TimeEntry = {
+  //       id: Date.now().toString(),
+  //       project,
+  //       topic,
+  //       startTime,
+  //       endTime,
+  //       date: selectedDate,
+  //       duration,
+  //       description,
+  //     };
+
+  //     const newEntries = [...entries, newEntry];
+  //     store.loadEntries(newEntries);
+  //   }
+
+  //   // Reset form
+  //   setProject("");
+  //   setTopic("");
+  //   setStartTime("");
+  //   setEndTime("");
+  //   setDescription("");
+  //   setIsAddDialogOpen(false);
+  // };
+
   const addEntry = () => {
-    if (!project || !topic || !startTime || !endTime) return;
-
-    const duration = Utils.calculateDuration(startTime, endTime);
-
-    if (editingEntry) {
-      const newEntries = entries.map((entry) =>
-        entry.id === editingEntry.id
-          ? {
-              ...entry,
-              project,
-              topic,
-              startTime,
-              endTime,
-              duration,
-              description,
-            }
-          : entry
-      );
-
-      store.loadEntries(newEntries);
-
-      setEditingEntry(null);
-    } else {
-      const newEntry: TimeEntry = {
-        id: Date.now().toString(),
-        project,
-        topic,
-        startTime,
-        endTime,
-        date: selectedDate,
-        duration,
-        description,
-      };
-
-      const newEntries = [...entries, newEntry];
-      store.loadEntries(newEntries);
-    }
-
-    // Reset form
-    setProject("");
-    setTopic("");
-    setStartTime("");
-    setEndTime("");
-    setDescription("");
-    setIsAddDialogOpen(false);
+    alert("Hello world");
   };
 
-  const todayEntries = entries.filter((entry) => entry.date === selectedDate);
+  // const projectSummary = entries.reduce((acc, entry) => {
+  //   acc[entry.project] = acc[entry.project] || 0;
+  //   return acc;
+  // }, {} as Record<string, number>);
 
-  const projectSummary = entries.reduce((acc, entry) => {
-    acc[entry.project] = (acc[entry.project] || 0) + entry.duration;
-    return acc;
-  }, {} as Record<string, number>);
+  // const topicSummary = entries.reduce((acc, entry) => {
+  //   acc[entry.topic] = acc[entry.topic] || 0;
+  //   return acc;
+  // }, {} as Record<string, number>);
 
-  const topicSummary = entries.reduce((acc, entry) => {
-    acc[entry.topic] = (acc[entry.topic] || 0) + entry.duration;
-    return acc;
-  }, {} as Record<string, number>);
-
-  const totalTimeToday = todayEntries.reduce(
-    (sum, entry) => sum + entry.duration,
-    0
-  );
+  // const totalTimeToday = todayEntries.reduce(
+  //   (sum, entry) => sum + entry.startTime, // Calculate duration
+  //   0
+  // );
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingEntry, setEditingEntry] = useState<TimeEntry | null>(null);
@@ -114,7 +115,7 @@ export const Overview = () => {
           <div>
             <h2 className="text-xl font-semibold">Today&apos;s Entries</h2>
             <p className="text-sm text-muted-foreground">
-              Total time: {Utils.formatDuration(totalTimeToday)}
+              Total time: {"calculateDuration()"}
             </p>
           </div>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -196,7 +197,13 @@ export const Overview = () => {
         </div>
 
         <div className="space-y-4">
-          {todayEntries.length === 0 ? <NoEntriesView /> : <EntriesView />}
+          {loading ? (
+            "loadingComponent"
+          ) : entries.length === 0 ? (
+            <NoEntriesView />
+          ) : (
+            <EntriesView />
+          )}
         </div>
       </TabsContent>
 
@@ -211,18 +218,18 @@ export const Overview = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {Object.entries(projectSummary).map(([project, duration]) => (
+                {Object.entries([]).map(([project, duration]) => (
                   <div
                     key={project}
                     className="flex items-center justify-between"
                   >
                     <span className="font-medium">{project}</span>
                     <span className="text-muted-foreground">
-                      {Utils.formatDuration(duration)}
+                      {"calculateDurationAndUseLibraryForPrettyDisplayOfMs"}
                     </span>
                   </div>
                 ))}
-                {Object.keys(projectSummary).length === 0 && (
+                {Object.keys([]).length === 0 && (
                   <p className="text-muted-foreground text-center py-4">
                     No data available
                   </p>
@@ -240,18 +247,18 @@ export const Overview = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {Object.entries(topicSummary).map(([topic, duration]) => (
+                {Object.entries([]).map(([topic, duration]) => (
                   <div
                     key={topic}
                     className="flex items-center justify-between"
                   >
                     <span className="font-medium">{topic}</span>
                     <span className="text-muted-foreground">
-                      {Utils.formatDuration(duration)}
+                      {"PrettyDisplayOfDuration"}
                     </span>
                   </div>
                 ))}
-                {Object.keys(topicSummary).length === 0 && (
+                {Object.keys([]).length === 0 && (
                   <p className="text-muted-foreground text-center py-4">
                     No data available
                   </p>

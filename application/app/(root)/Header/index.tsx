@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { useGlobalStore } from "../store";
-import { Utils } from "@/lib/utils/index";
+import { TimeUtils } from "@/lib/utils/timeUtils";
 
 export const Header = () => {
   const store = useGlobalStore();
@@ -21,7 +21,7 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           <Input
             type="date"
-            value={Utils.dateToInputValue(selectedDate)}
+            value={TimeUtils.dateToInputValue(selectedDate)}
             onChange={(e) => store.setSelectedDate(new Date(e.target.value))}
             pattern=""
             className="w-auto"
