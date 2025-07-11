@@ -19,10 +19,12 @@ import { useGlobalStore } from "../store";
 import { TimeEntry } from "../interface";
 import { useState } from "react";
 import { BarChart, Plus } from "lucide-react";
-import { Utils } from "@/lib/utils/index";
+import { useLoadEntries } from "../Entries/hooks/useEntries";
 
 export const Overview = () => {
   const store = useGlobalStore();
+  const { loading } = useLoadEntries();
+
   const entries = store.entries;
   const selectedDate = "Now";
   const [project, setProject] = useState("");
