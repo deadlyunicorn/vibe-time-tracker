@@ -1,9 +1,11 @@
 import { TimeEntry } from "@/app/(root)/interface";
 import { getCollections } from "..";
+import {
+  GetEntriesForRangeFromDbBody,
+  GetEntriesForRangeParsedBody,
+} from "@/lib/interfaces/entries/interface";
 
 export namespace TimersRepository {
-
-  
   export const getActiveTimer = async (userId: number) => {
     const { entriesCollection } = await getCollections();
     return entriesCollection.findOne({ userId, endTime: { $exists: false } });
@@ -31,6 +33,29 @@ export namespace TimersRepository {
         },
       }
     );
+  };
+
+  export const getEntriesForRange = async ({
+    userId,
+    startTime,
+    endTime,
+    skip,
+    limit,
+  }: GetEntriesForRangeFromDbBody) => {
+    const { entriesCollection } = await getCollections();
+    return entriesCollection
+      .find(
+        {
+          userId,
+          endTime: { $lt: endTime },
+          startTime: { $gt: startTime },
+        },
+        {
+          skip,
+          limit,
+        }
+      )
+      .toArray();
   };
 }
 
