@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useGlobalStore } from "../store";
 import { Clock, Play } from "lucide-react";
 import { VerticalInputWithLabelWrapper } from "@/components/VerticalInputWithLabelWrapper";
@@ -19,15 +19,24 @@ import {
 import { EntryService } from "@/lib/services/entries";
 import { TimeEntry } from "../interface";
 
+const lastProjectLocalStorageKey = "LAST_PROJECT";
+
 export const QuickTimer = () => {
   const store = useGlobalStore();
 
-  const [project, setProject] = useState("");
+  const { availableProjects, availableTopics } = store;
+
+  const lastProject = useMemo(() => {
+    const _lastProject = localStorage.getItem(lastProjectLocalStorageKey) ?? "";
+    if (availableProjects.includes(_lastProject)) {
+      return _lastProject;
+    }
+    return "";
+  }, []);
+
+  const [project, setProject] = useState(lastProject);
   const [description, setDescription] = useState<string>("");
   const [topic, setTopic] = useState("");
-
-  const { availableProjects } = store;
-  const { availableTopics } = store;
 
   const handleStartTimer = () => {
     if (!project || !topic) return;
@@ -128,10 +137,12 @@ export const QuickTimer = () => {
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <ComboBox
+            initialValue={project}
             entries={availableProjects.map(Utils.stringToLabelValue)}
             title={"Project"}
             onSelect={(value) => {
               setProject(value);
+              localStorage.setItem(lastProjectLocalStorageKey, value);
             }}
             onNewEntry={handleAddNewProject}
           />

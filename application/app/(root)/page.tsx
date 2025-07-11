@@ -1,3 +1,4 @@
+"use client";
 // import { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { ActiveTimer } from "./ActiveTimer";
@@ -7,10 +8,11 @@ import { QuickTimer } from "./QuickTimer";
 import { Overview } from "./Overview";
 import { AuthenticatedView } from "@/components/AuthenticatedView";
 import { StoreInitializer } from "./StoreInitializer";
+import { useGlobalStore } from "./store";
 // import { Overview } from "./Overview";
 
-export default async function Home() {
-  // const store = useGlobalStore();
+export default function Home() {
+  const store = useGlobalStore();
   // const entries = store.entries;
   // const [activeTimer, setActiveTimer] = useState<ITimer | null>(null)
 
@@ -63,12 +65,15 @@ export default async function Home() {
 
   return (
     <AuthenticatedView>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 lg:p-16 p-8">
-        <Header />
-        <ActiveTimer />
-        <QuickTimer />
-        <Overview />
-      </div>
+      {store.hasBeenInitiated && (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 lg:p-16 p-8">
+          <Header />
+          <ActiveTimer />
+          <QuickTimer />
+          <Overview />
+        </div>
+      )}
+
       <StoreInitializer />
     </AuthenticatedView>
   );

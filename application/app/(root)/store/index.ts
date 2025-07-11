@@ -8,6 +8,7 @@ import { UserModel } from "@/lib/db/users/model";
 import { Utils } from "@/lib/utils/index";
 
 interface IGlobalState {
+  hasBeenInitiated: boolean;
   entries: TimeEntry[];
   timer: TimeEntry | null;
   startTimer: (timer: TimeEntry) => void;
@@ -26,6 +27,7 @@ interface IGlobalState {
 export const useGlobalStore = create<IGlobalState>()(
   devtools(
     (set) => ({
+      hasBeenInitiated: false,
       timer: null,
       startTimer: (timer: TimeEntry) =>
         set(() => ({
@@ -63,6 +65,7 @@ export const useGlobalStore = create<IGlobalState>()(
           availableProjects,
           availableTopics,
           timer,
+          hasBeenInitiated: true,
         }));
       },
       shouldRestartState: false,

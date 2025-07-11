@@ -27,6 +27,7 @@ interface IEntry {
 }
 
 interface ComboBoxProps {
+  initialValue?: string;
   entries: IEntry[];
   title?: string;
   onNewEntry?: (value: string) => void;
@@ -38,9 +39,10 @@ export const ComboBox = ({
   title,
   onNewEntry,
   onSelect,
+  initialValue,
 }: ComboBoxProps) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(initialValue);
   const input = React.useRef<HTMLInputElement>(null);
   const [isEmpty, setIsEmpty] = React.useState(true);
 
