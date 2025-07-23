@@ -24,6 +24,14 @@ const trustedErrorHandle = (error: unknown) => {
     };
   }
 
+  if (error instanceof Error && error.name === "MongoServerSelectionError") {
+    return {
+      name: "Connection error",
+      message: "We were unable to establish a connection with the database",
+      status: 500,
+    };
+  }
+
   if (error instanceof ClientFriendlyError)
     return {
       name: error.name,
@@ -51,7 +59,11 @@ export const withErrorHandling =
     }
   };
 
-export const parseErrorFromResponse = (json: unknown) => {
+export const parseErrorFromResponse = async (response: Response) => {
+  const json = await response.json().catch((_) => {
+    return null;
+  });
+
   if (
     typeof json !== "object" ||
     json === null ||

@@ -1,14 +1,11 @@
 "use client";
 // import { useEffect, useState } from "react";
-import { Header } from "./Header";
-import { ActiveTimer } from "./ActiveTimer";
 // import { ITimer } from "./ActiveTimer/interface";
 // import { useGlobalStore } from "./store";
-import { QuickTimer } from "./QuickTimer";
-import { Overview } from "./Overview";
 import { AuthenticatedView } from "@/components/AuthenticatedView";
 import { StoreInitializer } from "./StoreInitializer";
 import { useGlobalStore } from "./store";
+import { MainView } from "./Main";
 // import { Overview } from "./Overview";
 
 export default function Home() {
@@ -65,15 +62,10 @@ export default function Home() {
 
   return (
     <AuthenticatedView>
-      {store.hasBeenInitiated && (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 lg:p-16 p-8">
-          <Header />
-          <ActiveTimer />
-          <QuickTimer />
-          <Overview />
-        </div>
-      )}
-
+      <MainView
+        hasBeenInitiated={store.hasBeenInitiated}
+        hasInitializationFailed={store.hasInitializationFailed}
+      />
       <StoreInitializer />
     </AuthenticatedView>
   );

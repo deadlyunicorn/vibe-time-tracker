@@ -9,6 +9,7 @@ import { Utils } from "@/lib/utils/index";
 
 interface IGlobalState {
   hasBeenInitiated: boolean;
+  hasInitializationFailed: boolean;
   entries: TimeEntry[];
   timer: TimeEntry | null;
   startTimer: (timer: TimeEntry) => void;
@@ -22,12 +23,14 @@ interface IGlobalState {
   shouldRestartState: boolean;
   restartState: () => void;
   finalizeTimer: (timer: TimeEntry) => void;
+  setInitializationFailed: () => void
 }
 
 export const useGlobalStore = create<IGlobalState>()(
   devtools(
     (set) => ({
       hasBeenInitiated: false,
+      hasInitializationFailed: false,
       timer: null,
       startTimer: (timer: TimeEntry) =>
         set(() => ({
@@ -73,6 +76,11 @@ export const useGlobalStore = create<IGlobalState>()(
         set((state) => ({
           shouldRestartState: !state.shouldRestartState,
         }));
+      },
+      setInitializationFailed: () => {
+        set(() => ({
+          hasInitializationFailed: true
+        } as IGlobalState));
       },
     }),
     {

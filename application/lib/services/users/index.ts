@@ -18,7 +18,7 @@ export namespace UserService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(await response.json());
+      throw await parseErrorFromResponse(response);
     }
 
     const { data } = (await response.json()) as BaseResponse<{
@@ -45,7 +45,7 @@ export namespace UserService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(await response.json());
+      throw await parseErrorFromResponse(response);
     }
 
     const { data } = (await response.json()) as BaseResponse<UserModel>;
@@ -63,7 +63,7 @@ export namespace UserService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(await response.json());
+      throw await parseErrorFromResponse(response);
     }
 
     return (await response.json()) as UserModel;
@@ -79,7 +79,7 @@ export namespace UserService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(await response.json());
+      throw await parseErrorFromResponse(response);
     }
 
     return (await response.json()) as UserModel;

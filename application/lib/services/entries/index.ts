@@ -19,7 +19,7 @@ export namespace EntryService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(await response.json());
+      throw parseErrorFromResponse(response);
     }
 
     const { data } = (await response.json()) as BaseResponse<EntryModel>;
@@ -37,7 +37,7 @@ export namespace EntryService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(await response.json());
+      throw await parseErrorFromResponse(response);
     }
 
     const { data } = (await response.json()) as BaseResponse<EntryModel>;
@@ -58,7 +58,7 @@ export namespace EntryService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(await response.json());
+      throw await parseErrorFromResponse(response);
     }
 
     const { data } = (await response.json()) as BaseResponse<EntryModel>;
@@ -79,7 +79,7 @@ export namespace EntryService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(await response.json());
+      throw await parseErrorFromResponse(response);
     }
 
     const { data } = (await response.json()) as BaseResponse<EntryModel[]>;
