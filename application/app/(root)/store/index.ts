@@ -6,25 +6,7 @@ import type {} from "@redux-devtools/extension"; // required for devtools typing
 import { TimeEntry } from "../interface";
 import { UserModel } from "@/lib/db/users/model";
 import { Utils } from "@/lib/utils/index";
-
-interface IGlobalState {
-  hasBeenInitiated: boolean;
-  hasInitializationFailed: boolean;
-  entries: TimeEntry[];
-  timer: TimeEntry | null;
-  startTimer: (timer: TimeEntry) => void;
-  addEntry: (entry: TimeEntry) => void;
-  loadEntries: (entries: Array<TimeEntry>) => void;
-  selectedDate: Date;
-  setSelectedDate: (date: Date) => void;
-  availableProjects: string[];
-  availableTopics: string[];
-  initState: (user: UserModel, activeTimer?: TimeEntry) => void;
-  shouldRestartState: boolean;
-  restartState: () => void;
-  finalizeTimer: (timer: TimeEntry) => void;
-  setInitializationFailed: () => void
-}
+import { IGlobalState } from "./interface";
 
 export const useGlobalStore = create<IGlobalState>()(
   devtools(
@@ -78,9 +60,12 @@ export const useGlobalStore = create<IGlobalState>()(
         }));
       },
       setInitializationFailed: () => {
-        set(() => ({
-          hasInitializationFailed: true
-        } as IGlobalState));
+        set(
+          () =>
+            ({
+              hasInitializationFailed: true,
+            } as IGlobalState)
+        );
       },
     }),
     {
