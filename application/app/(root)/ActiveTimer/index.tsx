@@ -30,27 +30,33 @@ export const ActiveTimer = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              <EditableBadge
-                initialValue={timer.project}
-                onUpdate={(newValue) =>
-                  onUpdateTimer(
-                    { ...timer, project: newValue },
-                    store.restartState
-                  )
-                }
-              />
-              <EditableBadge
-                initialValue={timer.topic}
-                onUpdate={(newValue) =>
-                  onUpdateTimer(
-                    { ...timer, topic: newValue },
-                    store.restartState
-                  )
-                }
-              />
+              <div className="flex flex-col">
+                <h5>Project</h5>
+                <EditableBadge
+                  initialValue={timer.project}
+                  onUpdate={(newValue) =>
+                    onUpdateTimer(
+                      { ...timer, project: newValue },
+                      store.restartState
+                    )
+                  }
+                />
+              </div>
+              <div className="flex flex-col">
+                <h5>Topic</h5>
+                <EditableBadge
+                  initialValue={timer.topic}
+                  onUpdate={(newValue) =>
+                    onUpdateTimer(
+                      { ...timer, topic: newValue },
+                      store.restartState
+                    )
+                  }
+                />
+              </div>
             </div>
             <div className="flex flex-col">
-              <h3>Description</h3>
+              <h5>Description</h5>
               {timer.description && (
                 <EditableBadge
                   initialValue={timer.description ?? ""}
@@ -62,11 +68,10 @@ export const ActiveTimer = () => {
                   }
                 />
               )}
-              {timer.description}
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 w-24">
             <Button
               onClick={() => onStopTimer(timer, store)}
               variant="destructive"

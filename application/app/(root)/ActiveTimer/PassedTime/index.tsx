@@ -17,8 +17,8 @@ export const PassedTime = ({ startTime }: { startTime: Date }) => {
   });
 
   return (
-    <div className="flex gap-1">
-      <span className="font-medium">Passed time:</span>
+    <div className="flex gap-0.5 flex-col items-end">
+      <span className="font-medium text-xs">Passed time:</span>
       <span className="font-bold">{passedTime}</span>
     </div>
   );

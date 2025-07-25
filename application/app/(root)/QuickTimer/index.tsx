@@ -128,6 +128,10 @@ export const QuickTimer = () => {
     });
   };
 
+  if (store.timer) {
+    return null;
+  }
+
   return (
     <Card className="mb-6 w-full">
       <CardHeader>
