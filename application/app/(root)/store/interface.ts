@@ -18,4 +18,6 @@ export interface IGlobalState {
   restartState: () => void;
   finalizeTimer: (timer: TimeEntry) => void;
   setInitializationFailed: () => void;
+  selectedProject: string;
+  setSelectedProject: (project: string) => void;
 }

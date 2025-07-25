@@ -14,6 +14,7 @@ export const useGlobalStore = create<IGlobalState>()(
       hasBeenInitiated: false,
       hasInitializationFailed: false,
       timer: null,
+      selectedProject: "",
       startTimer: (timer: TimeEntry) =>
         set(() => ({
           timer: timer,
@@ -66,6 +67,11 @@ export const useGlobalStore = create<IGlobalState>()(
               hasInitializationFailed: true,
             } as IGlobalState)
         );
+      },
+      setSelectedProject(project) {
+        set(() => ({
+          selectedProject: project,
+        }));
       },
     }),
     {
