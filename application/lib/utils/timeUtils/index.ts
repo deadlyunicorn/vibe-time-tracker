@@ -47,9 +47,12 @@ export namespace TimeUtils {
     return startTime;
   };
 
-  export const getPassedTime = (startDate: Date): string => {
-    const now = new Date();
-    const diff = now.getTime() - startDate.getTime() + 1000;
+  export const getDateDifference = (startDate: Date, endDate: Date): number => {
+    const diff = endDate.getTime() - startDate.getTime() + 1000; // Adding 1000 to account for the milliseconds difference
+    return diff;
+  };
+
+  export const getPassedTimeString = (diff: number): string => {
     return prettyMs(diff, {
       unitCount: 2,
       secondsDecimalDigits: 0,

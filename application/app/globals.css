@@ -121,6 +121,17 @@
   }
 }
 
+h1 {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+
 h5 {
   font-size: 11px;
   font-weight: 600;

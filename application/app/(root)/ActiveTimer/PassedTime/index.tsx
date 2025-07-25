@@ -4,11 +4,19 @@ import { TimeUtils } from "@/lib/utils/timeUtils";
 import { useEffect, useState } from "react";
 
 export const PassedTime = ({ startTime }: { startTime: Date }) => {
-  const [passedTime, setPassedTime] = useState(TimeUtils.getPassedTime(startTime));
+  const [passedTime, setPassedTime] = useState(
+    TimeUtils.getPassedTimeString(
+      TimeUtils.getDateDifference(startTime, new Date())
+    )
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPassedTime(TimeUtils.getPassedTime(startTime));
+      setPassedTime(
+        TimeUtils.getPassedTimeString(
+          TimeUtils.getDateDifference(startTime, new Date())
+        )
+      );
     }, 1000);
 
     return () => {
