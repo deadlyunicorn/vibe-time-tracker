@@ -13,6 +13,7 @@ export const Authenticate = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
@@ -20,17 +21,22 @@ export const Authenticate = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            setLoading(true);
             Utils.alertOnError(() =>
-              UserService.login({ username, password }).then((userId) => {
-                Utils.dispatchAlert({
-                  summary: "Login Successful",
-                  type: AlertType.Success,
-                  description: "You have logged in successfully.",
-                });
+              UserService.login({ username, password })
+                .then((userId) => {
+                  Utils.dispatchAlert({
+                    summary: "Login Successful",
+                    type: AlertType.Success,
+                    description: "You have logged in successfully.",
+                  });
 
-                localStorage.setItem(UserIdKey, String(userId));
-                window.location.reload();
-              })
+                  localStorage.setItem(UserIdKey, String(userId));
+                  window.location.reload();
+                })
+                .finally(() => {
+                  setLoading(false);
+                })
             );
           }}
           className="space-y-4"
@@ -74,7 +80,12 @@ export const Authenticate = () => {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className={`w-full  ${
+                loading ? "cursor-wait" : "cursor-pointer"
+              }`}
+            >
               Sign In
             </Button>
           </CardFooter>
