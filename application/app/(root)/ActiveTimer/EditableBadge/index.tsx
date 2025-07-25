@@ -1,27 +1,31 @@
 import { Badge } from "@/components/ui/badge";
 import { Edit } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { handleEditableBadgeUpdate } from "./utils";
 
 interface EditableBadgeProps {
   initialValue: string;
-  onUpdate: (newValue: string) => void;
+  onUpdate: (newValue: string) => void | Promise<void>;
 }
 
 export const EditableBadge = ({
   initialValue,
   onUpdate,
 }: EditableBadgeProps) => {
+  const valueRef = useRef(initialValue);
+  const inputElementRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState(initialValue);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleUpdate = () => {
-    if (isEditing) {
-      if (value == initialValue) {
-        return;
-      }
-      onUpdate(value);
-    }
-    setIsEditing(false);
+    handleEditableBadgeUpdate({
+      valueRef,
+      inputElementRef,
+      isEditing,
+      newValue: value,
+      onUpdate,
+      setIsEditing,
+    });
   };
 
   return (
@@ -34,7 +38,6 @@ export const EditableBadge = ({
       onKeyDown={(e) => {
         if (e.key.toLowerCase() === "enter") {
           handleUpdate();
-          alert("Pressed enter");
         }
       }}
     >
@@ -42,6 +45,7 @@ export const EditableBadge = ({
         className={`w-fit outline-none ${
           isEditing ? "cursor-text" : "cursor-default"
         }`}
+        ref={inputElementRef}
         value={value}
         onChange={(e) => {
           if (!isEditing) {
