@@ -4,7 +4,7 @@ import { useState } from "react";
 
 interface EditableBadgeProps {
   initialValue: string;
-  onUpdate: (newValue: String) => void;
+  onUpdate: (newValue: string) => void;
 }
 
 export const EditableBadge = ({
@@ -16,6 +16,9 @@ export const EditableBadge = ({
 
   const handleUpdate = () => {
     if (isEditing) {
+      if (value == initialValue) {
+        return;
+      }
       onUpdate(value);
     }
     setIsEditing(false);

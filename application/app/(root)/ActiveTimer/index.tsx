@@ -13,6 +13,7 @@ import { AlertType } from "@/components/AlertListener/interface";
 import { TimeUtils } from "@/lib/utils/timeUtils";
 import { ClientFriendlyError } from "@/lib/errors";
 import { UserNotLoggedInError } from "@/lib/errors/general-errors";
+import { EditableBadge } from "./EditableBadge";
 
 export const ActiveTimer = () => {
   const store = useGlobalStore();
@@ -69,26 +70,30 @@ export const ActiveTimer = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              <Badge variant="secondary">
-                {timer.project}{" "}
-                <div className="w-2 flex cursor-pointer">
-                  <Edit
-                    onClick={() => {
-                      alert("Editing");
-                    }}
-                  />
-                </div>
-              </Badge>
-              <Badge variant="outline">
-                {timer.topic}
-                <div className="w-2 flex cursor-pointer">
-                  <Edit
-                    onClick={() => {
-                      alert("Editing");
-                    }}
-                  />
-                </div>
-              </Badge>
+              <EditableBadge
+                initialValue={timer.project}
+                onUpdate={(newValue) => {
+                  alert(newValue);
+                }}
+              />
+              <EditableBadge
+                initialValue={timer.topic}
+                onUpdate={(newValue) => {
+                  alert(newValue);
+                }}
+              />
+            </div>
+            <div className="flex flex-col">
+              <h3>Description</h3>
+              {timer.description && (
+                <EditableBadge
+                  initialValue={timer.description ?? ""}
+                  onUpdate={(newValue) => {
+                    alert(newValue);
+                  }}
+                />
+              )}
+              {timer.description}
             </div>
           </div>
 
