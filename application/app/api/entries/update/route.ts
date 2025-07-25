@@ -17,21 +17,24 @@ export const POST = withErrorHandling(async (request) => {
     );
   }
 
-  const activeTimer = await TimersRepository.getActiveTimer(userId);
-  if (!!activeTimer) {
+  const selectedTimer = await TimersRepository.getTimerForUpdate(
+    userId,
+    entry.startTime
+  );
+  if (!selectedTimer) {
     throw new ClientFriendlyError(
       "Invalid action",
-      "Cannot start a new timer as there already seems to be an active one.",
-      401
+      "The timer you are trying to update could not be found",
+      404
     );
   }
 
-  const insertedTimer = await TimersRepository.create(userId, entry);
+  const updatedTimer = await TimersRepository.update(userId, entry);
 
   // Simulate a successful login response
   return new Response(
     JSON.stringify({
-      success: insertedTimer.acknowledged,
+      success: updatedTimer.acknowledged,
       data: { entry },
     }),
     {

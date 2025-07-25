@@ -23,3 +23,8 @@ export interface FinalizeEntryBody {
 export interface GetActiveTimerParams {
   userId: number;
 }
+
+export interface UpdateEntryBody {
+  userId: number;
+  entry: TimeEntry;
+}

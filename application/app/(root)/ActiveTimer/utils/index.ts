@@ -1,5 +1,10 @@
 import { Utils } from "@/lib/utils/index";
 import { TimeEntry } from "../../interface";
+import { UserService } from "@/lib/services/users";
+import { UserNotLoggedInError } from "@/lib/errors/general-errors";
+import { EntryService } from "@/lib/services/entries";
+import { AlertType } from "@/components/AlertListener/interface";
+import { IGlobalState } from "../../store/interface";
 
 export const generateNewEntry = ({
   activeTimer,
@@ -61,5 +66,19 @@ export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
       .then(() => {
         store.finalizeTimer(timer);
       });
+  });
+};
+
+export const onUpdateTimer = async (timer: TimeEntry) => {
+  if (!timer) return;
+
+  const userId = UserService.getCurrentUserId();
+  if (!userId) {
+    throw new UserNotLoggedInError(userId);
+  }
+
+  await EntryService.update({
+    entry: timer,
+    userId,
   });
 };

@@ -86,4 +86,22 @@ export namespace EntryService {
 
     return data;
   };
+
+  export const update = async (body: CreateEntryBody) => {
+    const response = await fetch(`/api/entries/update`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw parseErrorFromResponse(response);
+    }
+
+    const { data } = (await response.json()) as BaseResponse<EntryModel>;
+
+    return data;
+  };
 }

@@ -40,15 +40,15 @@ export const ActiveTimer = () => {
             <div className="flex gap-2">
               <EditableBadge
                 initialValue={timer.project}
-                onUpdate={(newValue) => {
-                  alert(newValue);
-                }}
+                onUpdate={(newValue) =>
+                  onUpdateTimer({ ...timer, project: newValue })
+                }
               />
               <EditableBadge
                 initialValue={timer.topic}
-                onUpdate={(newValue) => {
-                  alert(newValue);
-                }}
+                onUpdate={(newValue) =>
+                  onUpdateTimer({ ...timer, topic: newValue })
+                }
               />
             </div>
             <div className="flex flex-col">
@@ -56,9 +56,9 @@ export const ActiveTimer = () => {
               {timer.description && (
                 <EditableBadge
                   initialValue={timer.description ?? ""}
-                  onUpdate={(newValue) => {
-                    alert(newValue);
-                  }}
+                  onUpdate={(newValue) =>
+                    onUpdateTimer({ ...timer, description: newValue })
+                  }
                 />
               )}
               {timer.description}

@@ -21,6 +21,21 @@ export namespace TimersRepository {
     });
   };
 
+  export const update = async (userId: number, timer: TimeEntry) => {
+    const { entriesCollection } = await getCollections();
+
+    return await entriesCollection.updateOne(
+      {
+        userId,
+        startTime: timer.startTime,
+      },
+      {
+        ...timer,
+        updatedAt: Date.now(),
+      }
+    );
+  };
+
   export const finalize = async (userId: number, timer: TimeEntry) => {
     const { entriesCollection } = await getCollections();
 
@@ -56,6 +71,14 @@ export namespace TimersRepository {
         }
       )
       .toArray();
+  };
+
+  export const getTimerForUpdate = async (
+    userId: number,
+    startTime: number
+  ) => {
+    const { entriesCollection } = await getCollections();
+    return entriesCollection.findOne({ userId, startTime });
   };
 }
 

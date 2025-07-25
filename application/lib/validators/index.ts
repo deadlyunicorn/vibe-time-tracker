@@ -20,3 +20,16 @@ export const DescriptionValidator = zod
 export const MsSinceEpochValidator = zod
   .number()
   .min(1_700_000_000_000, "Please provide time in MS since UNIX epoch");
+
+export const ZodEntryUpdateValidator = zod.object({
+  userId: UserIdValidator,
+  entry: zod.object(
+    {
+      project: ProjectValidator,
+      topic: TopicValidator,
+      description: DescriptionValidator,
+      startTime: MsSinceEpochValidator,
+    },
+    { message: "No entry object provided" }
+  ),
+});
