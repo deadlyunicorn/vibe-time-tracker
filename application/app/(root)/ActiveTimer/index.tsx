@@ -7,6 +7,7 @@ import { PassedTime } from "./PassedTime";
 import { TimeUtils } from "@/lib/utils/timeUtils";
 import { EditableBadge } from "./EditableBadge";
 import { onStopTimer, onUpdateTimer } from "./utils";
+import { Utils } from "@/lib/utils/index";
 
 export const ActiveTimer = () => {
   const store = useGlobalStore();
@@ -56,18 +57,21 @@ export const ActiveTimer = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <h5>Description</h5>
-              {timer.description && (
-                <EditableBadge
-                  initialValue={timer.description ?? ""}
-                  onUpdate={(newValue) =>
-                    onUpdateTimer(
-                      { ...timer, description: newValue },
-                      store.restartState
-                    )
-                  }
-                />
-              )}
+              <div className="flex items-center">
+                <h5>Description</h5>
+              </div>
+              <EditableBadge
+                initialValue={
+                  Utils.makeEmptyStringNull(timer.description) ??
+                  "No description"
+                }
+                onUpdate={(newValue) =>
+                  onUpdateTimer(
+                    { ...timer, description: newValue },
+                    store.restartState
+                  )
+                }
+              />
             </div>
           </div>
 

@@ -110,4 +110,8 @@ export namespace Utils {
       skip,
     };
   };
+
+  export const makeEmptyStringNull = (text: string | null | undefined) => {
+    return text ? (text == "" ? null : text) : null;
+  };
 }
