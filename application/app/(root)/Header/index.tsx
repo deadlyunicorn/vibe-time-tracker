@@ -3,6 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { useGlobalStore } from "../store";
 import { TimeUtils } from "@/lib/utils/timeUtils";
+import { CurrentTime } from "./CurrentTime";
 
 export const Header = () => {
   const store = useGlobalStore();
@@ -16,17 +17,20 @@ export const Header = () => {
           Track your time across projects and topics
         </p>
       </div>
-      <div className="flex items-center gap-1">
-        <h3>Viewing</h3>
-        <div className="flex items-center gap-2">
-          <Input
-            type="date"
-            value={TimeUtils.dateToInputValue(selectedDate)}
-            onChange={(e) => store.setSelectedDate(new Date(e.target.value))}
-            pattern=""
-            className="w-auto"
-          />
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-1">
+          <h3>Viewing</h3>
+          <div className="flex items-center gap-2">
+            <Input
+              type="date"
+              value={TimeUtils.dateToInputValue(selectedDate)}
+              onChange={(e) => store.setSelectedDate(new Date(e.target.value))}
+              pattern=""
+              className="w-auto"
+            />
+          </div>
         </div>
+        <CurrentTime />
       </div>
     </div>
   );
