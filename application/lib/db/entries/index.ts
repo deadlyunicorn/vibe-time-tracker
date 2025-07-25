@@ -1,9 +1,7 @@
 import { TimeEntry } from "@/app/(root)/interface";
 import { getCollections } from "..";
-import {
-  GetEntriesForRangeFromDbBody,
-  GetEntriesForRangeParsedBody,
-} from "@/lib/interfaces/entries/interface";
+import { GetEntriesForRangeFromDbBody } from "@/lib/interfaces/entries/interface";
+import { UserServerService } from "@/lib/server-service/users";
 
 export namespace TimersRepository {
   export const getActiveTimer = async (userId: number) => {
@@ -23,6 +21,17 @@ export namespace TimersRepository {
 
   export const update = async (userId: number, timer: TimeEntry) => {
     const { entriesCollection } = await getCollections();
+
+    await UserServerService.addProject({
+      userId,
+      project: timer.project,
+      ignoreIfAlreadyExists: true,
+    });
+    await UserServerService.addTopic({
+      userId,
+      topic: timer.topic,
+      ignoreIfAlreadyExists: true,
+    });
 
     return await entriesCollection.updateOne(
       {
