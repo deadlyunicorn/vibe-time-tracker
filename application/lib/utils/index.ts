@@ -2,6 +2,7 @@ import prettyMs from "pretty-ms";
 import { TimeUtils } from "./timeUtils";
 import { AlertType, IAlert } from "@/components/AlertListener/interface";
 import { Events } from "../consts";
+import { ValidationError } from "../errors";
 
 /* eslint-disable @typescript-eslint/no-namespace */
 export namespace Utils {
@@ -62,12 +63,12 @@ export namespace Utils {
 
   export const assertValidNumber = (_item: unknown) => {
     if (_item === undefined || _item === null) {
-      throw new Error("No item provided");
+      throw new ValidationError("No item provided");
     }
     const item = Number(_item);
 
     if (Number.isNaN(item)) {
-      throw new Error("Item is not a number");
+      throw new ValidationError("Item is not a number");
     }
 
     return item as number;

@@ -1,5 +1,5 @@
 import { UserRepository } from "@/lib/db/users";
-import { withErrorHandling } from "@/lib/errors";
+import { ClientFriendlyError, withErrorHandling } from "@/lib/errors";
 import { LoginBody } from "@/lib/interfaces/auth/interface";
 import { AuthUtils } from "@/lib/utils/auth";
 import zod from "zod";
@@ -17,7 +17,7 @@ export const POST = withErrorHandling(async (request: Request) => {
 
   const user = await UserRepository.getUserByUsername({ username });
   if (!user) {
-    throw new Error("User not found");
+    throw new ClientFriendlyError("Invalid username", "User not found");
   }
 
   const isPasswordValid = await AuthUtils.passwordMatchesDatabaseHash(
@@ -25,7 +25,7 @@ export const POST = withErrorHandling(async (request: Request) => {
     user.passwordHash
   );
   if (!isPasswordValid) {
-    throw new Error("Invalid password");
+    throw new ClientFriendlyError("Authentication failed", "Invalid password");
   }
 
   // Simulate a successful login response

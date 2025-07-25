@@ -11,6 +11,8 @@ import { UserService } from "@/lib/services/users";
 import { EntryService } from "@/lib/services/entries";
 import { AlertType } from "@/components/AlertListener/interface";
 import { TimeUtils } from "@/lib/utils/timeUtils";
+import { ClientFriendlyError } from "@/lib/errors";
+import { UserNotLoggedInError } from "@/lib/errors/general-errors";
 
 export const ActiveTimer = () => {
   const store = useGlobalStore();
@@ -24,7 +26,7 @@ export const ActiveTimer = () => {
     Utils.alertOnError(() => {
       const userId = UserService.getCurrentUserId();
       if (!userId) {
-        throw new Error("User is not logged in. User Id: " + userId);
+        throw new UserNotLoggedInError(userId);
       }
 
       return EntryService.finalize({

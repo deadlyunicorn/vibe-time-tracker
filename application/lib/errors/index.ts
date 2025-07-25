@@ -15,6 +15,12 @@ export class ClientFriendlyError extends Error {
   }
 }
 
+export class ValidationError extends ClientFriendlyError {
+  constructor(reason: string) {
+    super("Validation error", reason, 422);
+  }
+}
+
 const trustedErrorHandle = (error: unknown) => {
   if (error instanceof ZodError) {
     return {

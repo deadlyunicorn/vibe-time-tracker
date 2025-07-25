@@ -1,8 +1,10 @@
 import { MongoClient, MongoClientOptions } from "mongodb";
+import { ClientFriendlyError } from "../errors";
 
 const uri = process.env.MONGODB_URI as string;
 if (!uri) {
-  throw new Error(
+  throw new ClientFriendlyError(
+    "Unconfigured Environment",
     "Please define the MONGODB_URI environment variable inside .env"
   );
 }

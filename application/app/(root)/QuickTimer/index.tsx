@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/tooltip";
 import { EntryService } from "@/lib/services/entries";
 import { TimeEntry } from "../interface";
+import { ClientFriendlyError } from "@/lib/errors";
+import { UserNotLoggedInError } from "@/lib/errors/general-errors";
 
 const lastProjectLocalStorageKey = "LAST_PROJECT";
 
@@ -46,7 +48,7 @@ export const QuickTimer = () => {
     Utils.alertOnError(() => {
       const userId = UserService.getCurrentUserId();
       if (!userId) {
-        throw new Error("User is not logged in. User Id: " + userId);
+        throw new UserNotLoggedInError(userId);
       }
 
       const timer: TimeEntry = {
@@ -86,7 +88,7 @@ export const QuickTimer = () => {
     Utils.alertOnError(() => {
       const userId = UserService.getCurrentUserId();
       if (!userId) {
-        throw new Error("User is not logged in. User Id: " + userId);
+        throw new UserNotLoggedInError(userId);
       }
       return UserService.addProjectEntry({
         project,
@@ -108,7 +110,7 @@ export const QuickTimer = () => {
     Utils.alertOnError(() => {
       const userId = UserService.getCurrentUserId();
       if (!userId) {
-        throw new Error("User is not logged in. User Id: " + userId);
+        throw new UserNotLoggedInError(userId);
       }
       return UserService.addTopicEntry({
         topic,
