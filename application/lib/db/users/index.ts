@@ -35,7 +35,7 @@ export namespace UserRepository {
     const user = await usersCollection.updateOne(
       { userId },
       {
-        $set: { projects },
+        $set: { projects, updatedAt: Date.now() },
       }
     );
     return user;
@@ -52,7 +52,7 @@ export namespace UserRepository {
     const user = await usersCollection.updateOne(
       { userId },
       {
-        $set: { topics },
+        $set: { topics, updatedAt: Date.now() },
       }
     );
     return user;

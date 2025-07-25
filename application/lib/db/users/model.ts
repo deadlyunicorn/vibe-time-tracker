@@ -7,4 +7,5 @@ export interface UserModel {
   projects: string[];
   topics: string[];
   userId: number;
+  updatedAt: number;
 }

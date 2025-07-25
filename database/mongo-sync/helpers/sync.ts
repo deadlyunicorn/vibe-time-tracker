@@ -29,10 +29,12 @@ export const syncCollections = async (
       bulkOperationsRemote.push({ insertOne: { document: doc } }); // Doesn't exist remotely
     } else if (doc.updatedAt > remoteDoc.updatedAt) {
       bulkOperationsRemote.push({
+        // ? It may have been better to use updateOne here.. I don't remember why I chose replace
         replaceOne: { filter: { _id: doc._id }, replacement: doc },
       }); // Local is newer
     } else if (doc.updatedAt < remoteDoc.updatedAt) {
       bulkOperationsLocal.push({
+        // ? It may have been better to use updateOne here.. I don't remember why I chose replace
         replaceOne: { filter: { _id: remoteDoc._id }, replacement: remoteDoc },
       }); // Remote is newer
     }
