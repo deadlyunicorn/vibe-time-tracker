@@ -97,7 +97,7 @@ export namespace EntryService {
     });
 
     if (!response.ok) {
-      throw parseErrorFromResponse(response);
+      throw await parseErrorFromResponse(response);
     }
 
     const { data } = (await response.json()) as BaseResponse<EntryModel>;
