@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode, useEffect, useState } from "react";
 import { Authenticate } from "./Authenticate";
-import { UserService } from "@/lib/services/users";
+import { UserService } from "@/lib/client-service/users";
 
 export const AuthenticatedView = ({ children }: { children: ReactNode }) => {
   // This is not an application that includes sensitive data.

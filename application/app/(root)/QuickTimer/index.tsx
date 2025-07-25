@@ -9,14 +9,14 @@ import { Clock, Play } from "lucide-react";
 import { VerticalInputWithLabelWrapper } from "@/components/VerticalInputWithLabelWrapper";
 import { ComboBox } from "@/components/ui/comboBox";
 import { Utils } from "@/lib/utils/index";
-import { UserService } from "@/lib/services/users";
+import { UserService } from "@/lib/client-service/users";
 import { AlertType } from "@/components/AlertListener/interface";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { EntryService } from "@/lib/services/entries";
+import { EntryService } from "@/lib/client-service/entries";
 import { TimeEntry } from "../interface";
 import { ClientFriendlyError } from "@/lib/errors";
 import { UserNotLoggedInError } from "@/lib/errors/general-errors";

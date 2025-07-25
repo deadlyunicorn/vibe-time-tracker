@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { useGlobalStore } from "../store";
-import { UserService } from "@/lib/services/users";
-import { EntryService } from "@/lib/services/entries";
+import { UserService } from "@/lib/client-service/users";
+import { EntryService } from "@/lib/client-service/entries";
 import { Utils } from "@/lib/utils/index";
 
 export const StoreInitializer = () => {

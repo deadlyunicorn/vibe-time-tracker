@@ -1,6 +1,6 @@
 import { useGlobalStore } from "@/app/(root)/store";
-import { EntryService } from "@/lib/services/entries";
-import { UserService } from "@/lib/services/users";
+import { EntryService } from "@/lib/client-service/entries";
+import { UserService } from "@/lib/client-service/users";
 import { useEffect, useState } from "react";
 
 /**

@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserIdKey } from "@/lib/consts";
-import { UserService } from "@/lib/services/users";
+import { UserService } from "@/lib/client-service/users";
 import { Utils } from "@/lib/utils/index";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
