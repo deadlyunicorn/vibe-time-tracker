@@ -10,6 +10,7 @@ import { Utils } from "@/lib/utils/index";
 import { UserService } from "@/lib/services/users";
 import { EntryService } from "@/lib/services/entries";
 import { AlertType } from "@/components/AlertListener/interface";
+import { TimeUtils } from "@/lib/utils/timeUtils";
 
 export const ActiveTimer = () => {
   const store = useGlobalStore();
@@ -61,7 +62,7 @@ export const ActiveTimer = () => {
               <div className="gap-1 flex">
                 <span className="font-medium">Timer running since:</span>
                 <span className="font-bold">
-                  {Utils.getStartTimeFromDate(new Date(timer.startTime))}
+                  {TimeUtils.getStartTimeFromDate(new Date(timer.startTime))}
                 </span>
               </div>
             </div>

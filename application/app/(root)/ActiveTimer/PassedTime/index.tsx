@@ -1,13 +1,14 @@
 "use client";
 import { Utils } from "@/lib/utils/index";
+import { TimeUtils } from "@/lib/utils/timeUtils";
 import { useEffect, useState } from "react";
 
 export const PassedTime = ({ startTime }: { startTime: Date }) => {
-  const [passedTime, setPassedTime] = useState(Utils.getPassedTime(startTime));
+  const [passedTime, setPassedTime] = useState(TimeUtils.getPassedTime(startTime));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPassedTime(Utils.getPassedTime(startTime));
+      setPassedTime(TimeUtils.getPassedTime(startTime));
     }, 1000);
 
     return () => {
