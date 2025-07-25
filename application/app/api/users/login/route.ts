@@ -1,4 +1,5 @@
 import { UserRepository } from "@/lib/db/users";
+import { withErrorHandling } from "@/lib/errors";
 import { LoginBody } from "@/lib/interfaces/auth/interface";
 import { AuthUtils } from "@/lib/utils/auth";
 import zod from "zod";
@@ -10,7 +11,7 @@ const LoginSchema = zod.object({
     .min(6, "Password should be at least 6 characters long"),
 });
 
-export const POST = async (request: Request) => {
+export const POST = withErrorHandling(async (request: Request) => {
   const body: LoginBody = await request.json();
   const { username, password } = LoginSchema.parse(body);
 
@@ -34,4 +35,4 @@ export const POST = async (request: Request) => {
       headers: { "Content-Type": "application/json" },
     }
   );
-};
+});
