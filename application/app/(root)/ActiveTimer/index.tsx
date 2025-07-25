@@ -14,43 +14,11 @@ import { TimeUtils } from "@/lib/utils/timeUtils";
 import { ClientFriendlyError } from "@/lib/errors";
 import { UserNotLoggedInError } from "@/lib/errors/general-errors";
 import { EditableBadge } from "./EditableBadge";
+import { onStopTimer, onUpdateTimer } from "./utils";
 
 export const ActiveTimer = () => {
   const store = useGlobalStore();
   const timer = store.timer;
-
-  const onStopTimer = () => {
-    if (!timer) return;
-
-    const endTime = new Date().getTime();
-
-    Utils.alertOnError(() => {
-      const userId = UserService.getCurrentUserId();
-      if (!userId) {
-        throw new UserNotLoggedInError(userId);
-      }
-
-      return EntryService.finalize({
-        entry: {
-          ...timer,
-          endTime,
-          description: Utils.makeUndefinedIfEmpty(timer.description),
-        },
-        userId,
-      })
-        .then((response) => {
-          Utils.dispatchAlert({
-            summary: "Success",
-            type: AlertType.Success,
-            description: "Entry stored successfully",
-          });
-          return response;
-        })
-        .then(() => {
-          store.finalizeTimer(timer);
-        });
-    });
-  };
 
   if (!timer) {
     return null;
@@ -98,7 +66,11 @@ export const ActiveTimer = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Button onClick={onStopTimer} variant="destructive" size="sm">
+            <Button
+              onClick={() => onStopTimer(timer, store)}
+              variant="destructive"
+              size="sm"
+            >
               Stop Timer
             </Button>
             <PassedTime startTime={new Date(timer.startTime)} />

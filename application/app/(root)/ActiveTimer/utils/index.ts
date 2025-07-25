@@ -30,3 +30,36 @@ export const generateNewEntry = ({
 
   return newEntry;
 };
+
+export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
+  if (!timer) return;
+
+  const endTime = new Date().getTime();
+
+  Utils.alertOnError(async () => {
+    const userId = UserService.getCurrentUserId();
+    if (!userId) {
+      throw new UserNotLoggedInError(userId);
+    }
+
+    return EntryService.finalize({
+      entry: {
+        ...timer,
+        endTime,
+        description: Utils.makeUndefinedIfEmpty(timer.description),
+      },
+      userId,
+    })
+      .then((response) => {
+        Utils.dispatchAlert({
+          summary: "Success",
+          type: AlertType.Success,
+          description: "Entry stored successfully",
+        });
+        return response;
+      })
+      .then(() => {
+        store.finalizeTimer(timer);
+      });
+  });
+};
