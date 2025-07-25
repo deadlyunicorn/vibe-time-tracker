@@ -1,8 +1,8 @@
 import { Utils } from "@/lib/utils/index";
 import { TimeEntry } from "../../interface";
-import { UserService } from "@/lib/services/users";
+import { UserService } from "@/lib/client-service/users";
 import { UserNotLoggedInError } from "@/lib/errors/general-errors";
-import { EntryService } from "@/lib/services/entries";
+import { EntryService } from "@/lib/client-service/entries";
 import { AlertType } from "@/components/AlertListener/interface";
 import { IGlobalState } from "../../store/interface";
 
@@ -69,7 +69,10 @@ export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
   });
 };
 
-export const onUpdateTimer = async (timer: TimeEntry) => {
+export const onUpdateTimer = async (
+  timer: TimeEntry,
+  reloadState: () => void
+) => {
   if (!timer) return;
 
   const userId = UserService.getCurrentUserId();
@@ -81,4 +84,11 @@ export const onUpdateTimer = async (timer: TimeEntry) => {
     entry: timer,
     userId,
   });
+
+  Utils.dispatchAlert({
+    summary: "Success",
+    description: "Timer has been updated successfully",
+    type: AlertType.Success,
+  });
+  reloadState();
 };

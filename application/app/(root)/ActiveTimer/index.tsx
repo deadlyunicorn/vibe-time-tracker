@@ -1,18 +1,10 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGlobalStore } from "../store";
 import { PassedTime } from "./PassedTime";
-import { Edit } from "lucide-react";
-import { Utils } from "@/lib/utils/index";
-import { UserService } from "@/lib/services/users";
-import { EntryService } from "@/lib/services/entries";
-import { AlertType } from "@/components/AlertListener/interface";
 import { TimeUtils } from "@/lib/utils/timeUtils";
-import { ClientFriendlyError } from "@/lib/errors";
-import { UserNotLoggedInError } from "@/lib/errors/general-errors";
 import { EditableBadge } from "./EditableBadge";
 import { onStopTimer, onUpdateTimer } from "./utils";
 
@@ -41,13 +33,19 @@ export const ActiveTimer = () => {
               <EditableBadge
                 initialValue={timer.project}
                 onUpdate={(newValue) =>
-                  onUpdateTimer({ ...timer, project: newValue })
+                  onUpdateTimer(
+                    { ...timer, project: newValue },
+                    store.restartState
+                  )
                 }
               />
               <EditableBadge
                 initialValue={timer.topic}
                 onUpdate={(newValue) =>
-                  onUpdateTimer({ ...timer, topic: newValue })
+                  onUpdateTimer(
+                    { ...timer, topic: newValue },
+                    store.restartState
+                  )
                 }
               />
             </div>
@@ -57,7 +55,10 @@ export const ActiveTimer = () => {
                 <EditableBadge
                   initialValue={timer.description ?? ""}
                   onUpdate={(newValue) =>
-                    onUpdateTimer({ ...timer, description: newValue })
+                    onUpdateTimer(
+                      { ...timer, description: newValue },
+                      store.restartState
+                    )
                   }
                 />
               )}
