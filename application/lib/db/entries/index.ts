@@ -30,8 +30,10 @@ export namespace TimersRepository {
         startTime: timer.startTime,
       },
       {
-        ...timer,
-        updatedAt: Date.now(),
+        $set: {
+          ...timer,
+          updatedAt: Date.now(),
+        },
       }
     );
   };
