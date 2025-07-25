@@ -50,17 +50,6 @@ export namespace Utils {
       (entry) => (entry ?? "").trim() != ""
     );
 
-  export const makeUndefinedIfEmpty = (text: string | undefined) => {
-    if (!text) {
-      return undefined;
-    }
-
-    if (text.trim() == "") {
-      return undefined;
-    }
-    return text;
-  };
-
   export const assertValidNumber = (_item: unknown) => {
     if (_item === undefined || _item === null) {
       throw new ValidationError("No item provided");
@@ -111,7 +100,14 @@ export namespace Utils {
     };
   };
 
-  export const makeEmptyStringNull = (text: string | null | undefined) => {
-    return text ? (text == "" ? null : text) : null;
+  export const makeEmptyStringNull = (text: string | undefined | null) => {
+    if (!text) {
+      return null;
+    }
+
+    if (text.trim() == "") {
+      return null;
+    }
+    return text;
   };
 }

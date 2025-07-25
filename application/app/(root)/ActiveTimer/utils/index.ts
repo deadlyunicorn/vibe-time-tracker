@@ -51,7 +51,7 @@ export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
       entry: {
         ...timer,
         endTime,
-        description: Utils.makeUndefinedIfEmpty(timer.description),
+        description: Utils.makeEmptyStringNull(timer.description),
       },
       userId,
     })

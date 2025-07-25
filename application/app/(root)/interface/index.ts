@@ -3,5 +3,5 @@ export interface TimeEntry {
   topic: string;
   startTime: number;
   endTime?: number;
-  description?: string;
+  description?: string | null;
 }

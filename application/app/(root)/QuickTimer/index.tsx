@@ -9,17 +9,16 @@ import { Clock, Play } from "lucide-react";
 import { VerticalInputWithLabelWrapper } from "@/components/VerticalInputWithLabelWrapper";
 import { ComboBox } from "@/components/ui/comboBox";
 import { Utils } from "@/lib/utils/index";
-import { UserService } from "@/lib/client-service/users";
-import { AlertType } from "@/components/AlertListener/interface";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { EntryService } from "@/lib/client-service/entries";
-import { TimeEntry } from "../interface";
-import { ClientFriendlyError } from "@/lib/errors";
-import { UserNotLoggedInError } from "@/lib/errors/general-errors";
+import {
+  handleAddNewProject,
+  handleAddNewTopic,
+  handleStartTimer,
+} from "./utils";
 
 const lastProjectLocalStorageKey = "LAST_PROJECT";
 
@@ -39,94 +38,6 @@ export const QuickTimer = () => {
   const [project, setProject] = useState(lastProject);
   const [description, setDescription] = useState<string>("");
   const [topic, setTopic] = useState("");
-
-  const handleStartTimer = () => {
-    if (!project || !topic) return;
-
-    const startTime = new Date().getTime();
-
-    Utils.alertOnError(() => {
-      const userId = UserService.getCurrentUserId();
-      if (!userId) {
-        throw new UserNotLoggedInError(userId);
-      }
-
-      const timer: TimeEntry = {
-        project,
-        topic,
-        startTime,
-        description,
-      };
-
-      return EntryService.create({
-        userId,
-        entry: {
-          ...timer,
-          description: Utils.makeUndefinedIfEmpty(description),
-        },
-      })
-        .then((response) => {
-          Utils.dispatchAlert({
-            summary: "Success",
-            type: AlertType.Success,
-            description: "Timer started successfully",
-          });
-          return response;
-        })
-        .then(() => {
-          store.startTimer(timer);
-        });
-    });
-
-    // Clear form
-    setProject("");
-    setTopic("");
-    setDescription("");
-  };
-
-  const handleAddNewProject = (project: string) => {
-    Utils.alertOnError(() => {
-      const userId = UserService.getCurrentUserId();
-      if (!userId) {
-        throw new UserNotLoggedInError(userId);
-      }
-      return UserService.addProjectEntry({
-        project,
-        userId,
-      }).then((response) => {
-        Utils.dispatchAlert({
-          summary: "Success",
-          type: AlertType.Success,
-          description: "Project added successfully",
-        });
-        return response;
-      });
-    }).then(() => {
-      store.restartState();
-    });
-  };
-
-  const handleAddNewTopic = (topic: string) => {
-    Utils.alertOnError(() => {
-      const userId = UserService.getCurrentUserId();
-      if (!userId) {
-        throw new UserNotLoggedInError(userId);
-      }
-      return UserService.addTopicEntry({
-        topic,
-        userId,
-      }).then((response) => {
-        Utils.dispatchAlert({
-          summary: "Success",
-          type: AlertType.Success,
-          description: "Topic added successfully",
-        });
-        return response;
-      });
-    }).then(() => {
-      store.restartState();
-    });
-  };
 
   if (store.timer) {
     return null;
@@ -150,7 +61,7 @@ export const QuickTimer = () => {
               setProject(value);
               localStorage.setItem(lastProjectLocalStorageKey, value);
             }}
-            onNewEntry={handleAddNewProject}
+            onNewEntry={(project) => handleAddNewProject(project, store)}
           />
           <ComboBox
             entries={availableTopics.map(Utils.stringToLabelValue)}
@@ -158,7 +69,7 @@ export const QuickTimer = () => {
             onSelect={(value) => {
               setTopic(value);
             }}
-            onNewEntry={handleAddNewTopic}
+            onNewEntry={(topic) => handleAddNewTopic(topic, store)}
           />
 
           <VerticalInputWithLabelWrapper>
@@ -175,7 +86,9 @@ export const QuickTimer = () => {
             <TooltipTrigger asChild>
               <div>
                 <Button
-                  onClick={handleStartTimer}
+                  onClick={() =>
+                    handleStartTimer({ description, project, store, topic })
+                  }
                   disabled={!project || !topic || !!store.timer}
                   className="w-full"
                 >

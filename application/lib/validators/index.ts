@@ -15,7 +15,8 @@ export const TopicValidator = zod
 export const DescriptionValidator = zod
   .string()
   .min(6, "Description should be at least 6 characters long")
-  .optional();
+  .optional()
+  .nullable();
 
 export const MsSinceEpochValidator = zod
   .number()
