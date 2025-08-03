@@ -19,9 +19,11 @@ export const TodayTab = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold">Today&apos;s Entries</h2>
-          <p className="text-sm text-muted-foreground">
-            Total time: {"calculateDuration()"}
-          </p>
+          <div className="flex items-center justify-between flex-col">
+            <h1 className="font-medium">
+              {getTotalPassedTimeForEntriesString(entriesForProject)}
+            </h1>
+          </div>
         </div>
         <AddEntryDialogButton />
       </div>
