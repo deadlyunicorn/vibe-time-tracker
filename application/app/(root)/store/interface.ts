@@ -8,6 +8,7 @@ export interface IGlobalState {
   timer: TimeEntry | null;
   startTimer: (timer: TimeEntry) => void;
   addEntry: (entry: TimeEntry) => void;
+  removeEntry: (startTime: number) => void;
   loadEntries: (entries: Array<TimeEntry>) => void;
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;

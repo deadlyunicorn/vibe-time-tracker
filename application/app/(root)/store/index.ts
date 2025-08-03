@@ -32,6 +32,10 @@ export const useGlobalStore = create<IGlobalState>()(
         set((state) => ({
           entries: [...state.entries, entry],
         })),
+      removeEntry: (startTime) =>
+        set((state) => ({
+          entries: state.entries.filter(entry => entry.startTime !== startTime),
+        })),
       loadEntries: (entries: Array<TimeEntry>) =>
         set(() => ({
           entries: entries,

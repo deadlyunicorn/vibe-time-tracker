@@ -6,7 +6,11 @@ import { UserServerService } from "@/lib/server-service/users";
 export namespace TimersRepository {
   export const getActiveTimer = async (userId: number) => {
     const { entriesCollection } = await getCollections();
-    return entriesCollection.findOne({ userId, endTime: { $exists: false } });
+    return entriesCollection.findOne({ 
+      userId, 
+      endTime: { $exists: false },
+      deletedAt: { $exists: false }
+    });
   };
 
   export const create = async (userId: number, timer: TimeEntry) => {
@@ -75,6 +79,7 @@ export namespace TimersRepository {
           userId,
           endTime: { $lt: endTime },
           startTime: { $gt: startTime },
+          deletedAt: { $exists: false },
         },
         {
           skip,
@@ -89,7 +94,27 @@ export namespace TimersRepository {
     startTime: number
   ) => {
     const { entriesCollection } = await getCollections();
-    return entriesCollection.findOne({ userId, startTime });
+    return entriesCollection.findOne({ 
+      userId, 
+      startTime,
+      deletedAt: { $exists: false }
+    });
+  };
+
+  export const deleteEntry = async (userId: number, startTime: number) => {
+    const { entriesCollection } = await getCollections();
+    return await entriesCollection.updateOne(
+      {
+        userId,
+        startTime,
+      },
+      {
+        $set: {
+          deletedAt: Date.now(),
+          updatedAt: Date.now(),
+        },
+      }
+    );
   };
 }
 

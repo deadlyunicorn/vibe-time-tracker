@@ -28,3 +28,8 @@ export interface UpdateEntryBody {
   userId: number;
   entry: TimeEntry;
 }
+
+export interface DeleteEntryBody {
+  userId: number;
+  startTime: number;
+}

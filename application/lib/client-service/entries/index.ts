@@ -5,6 +5,7 @@ import { BaseResponse } from "@/lib/interfaces/interface";
 import {
   CreateEntryBody,
   FinalizeEntryBody,
+  DeleteEntryBody,
 } from "@/lib/interfaces/user/interface";
 import { Utils } from "@/lib/utils/index";
 
@@ -101,6 +102,24 @@ export namespace EntryService {
     }
 
     const { data } = (await response.json()) as BaseResponse<EntryModel>;
+
+    return data;
+  };
+
+  export const deleteEntry = async (body: DeleteEntryBody) => {
+    const response = await fetch(`/api/entries/delete`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw await parseErrorFromResponse(response);
+    }
+
+    const { data } = (await response.json()) as BaseResponse<{ startTime: number }>;
 
     return data;
   };

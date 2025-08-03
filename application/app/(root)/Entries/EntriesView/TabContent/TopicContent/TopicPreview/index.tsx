@@ -3,6 +3,7 @@ import { getTotalPassedTimeForEntriesString } from "../utils";
 import { Badge } from "@/components/ui/badge";
 import { TimeEntry } from "@/app/(root)/interface";
 import { CardExpandableIcon } from "../CardExpandableIcon";
+import { EndActiveTimerAndStartNewOfSelectedTopicButton } from "./EndActiveTimerAndStartNewOfSelectedTopicButton";
 
 interface TopicPreviewProps {
   entries: Array<TimeEntry>;
