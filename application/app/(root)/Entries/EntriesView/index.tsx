@@ -1,23 +1,27 @@
 import { useGlobalStore } from "../../store";
 import { TimeEntry } from "../../interface";
-import { getEntriesGroupedByProjects } from "../../Overview/utils";
+import {
+  getEntriesGroupedByProjects,
+} from "../../Overview/utils";
 import { Tabs } from "@/components/ui/tabs";
 import { TabList } from "./TabList";
 import { TabContent } from "./TabContent";
+import { useSelectedProjectInit } from "@/lib/hooks/useSelectedProjectInit";
 
-export const EntriesView = () => {
+interface EntriesViewProps {
+  filteredEntries?: TimeEntry[];
+}
+
+export const EntriesView = ({ filteredEntries }: EntriesViewProps = {}) => {
   const store = useGlobalStore();
   const entries = store.entries;
-  const entriesByProject = getEntriesGroupedByProjects(
-      [...entries, ...(store.timer ? [store.timer] : [])]
-  );
+  
+  // Use filtered entries if provided, otherwise use all entries with active timer
+  const entriesToDisplay = filteredEntries ?? [...entries, ...(store.timer ? [store.timer] : [])];
+  const entriesByProject = getEntriesGroupedByProjects(entriesToDisplay);
   const projects = Object.keys(entriesByProject);
 
-  useEffect(() => {
-    if (!store.selectedProject) {
-      store.setSelectedProject(projects[0]);
-    }
-  }, []);
+  useSelectedProjectInit(projects);
 
   const editEntry = (entry: TimeEntry) => {
     alert(entry);

@@ -1,18 +1,13 @@
 "use client";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { Authenticate } from "./Authenticate";
-import { UserService } from "@/lib/client-service/users";
+import { useAuthentication } from "@/lib/hooks/useAuthentication";
 
 export const AuthenticatedView = ({ children }: { children: ReactNode }) => {
   // This is not an application that includes sensitive data.
   // For this reason - we will not implement a real authentication system.
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const authenticated = UserService.getCurrentUserId();
-    setIsAuthenticated(!!authenticated);
-  }, []);
+  const isAuthenticated = useAuthentication();
 
   if (isAuthenticated === null) {
     return null;

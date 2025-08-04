@@ -1,34 +1,22 @@
 "use client";
 import { useEventListener } from "@/lib/hooks/useEventListener";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Terminal } from "lucide-react";
 import { IAlert } from "./interface";
 import { Events } from "@/lib/consts";
+import { useAlertCleanup } from "@/lib/hooks/useAlertCleanup";
 
 export const AlertListener = ({ children }: { children: ReactNode }) => {
   const [alerts, setAlerts] = useState<Array<IAlert & { timestamp: number }>>(
     []
   );
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = Date.now();
+  useAlertCleanup(alerts, setAlerts);
 
-      const latestNotifications = alerts.filter(
-        (notification) => now - notification.timestamp < 3000
-      );
-
-      setAlerts(latestNotifications);
-    }, 100);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [alerts]);
-
-  useEventListener(Events.Alert, (event: { detail: { alert: IAlert } }) => {
-    const alert = event.detail.alert;
+  useEventListener(Events.Alert, (event: Event) => {
+    const customEvent = event as CustomEvent<{ alert: IAlert }>;
+    const alert = customEvent.detail.alert;
     setAlerts((prev) => [...prev, { ...alert, timestamp: Date.now() }]);
   });
 
@@ -37,7 +25,7 @@ export const AlertListener = ({ children }: { children: ReactNode }) => {
       {children}
 
       <div className="fixed top-0 left-0  h-[100vh] w-[100vw] flex flex-col justify-end gap-4 py-4 pointer-events-none px-8">
-        {alerts.map((alert, index) => (
+                {alerts.map((alert, index) => (
           <Alert
             variant={alert.type === "error" ? "destructive" : "default"}
             onMouseOver={() => {

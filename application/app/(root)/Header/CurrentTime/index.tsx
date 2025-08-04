@@ -1,6 +1,6 @@
 import { useInterval } from "@/lib/hooks/useInterval";
 import { TimeUtils } from "@/lib/utils/timeUtils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const CurrentTime = () => {
   const [currentTime, setCurrentTime] = useState(

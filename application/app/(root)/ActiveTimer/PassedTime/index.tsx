@@ -1,28 +1,9 @@
 "use client";
 import { Utils } from "@/lib/utils/index";
-import { TimeUtils } from "@/lib/utils/timeUtils";
-import { useEffect, useState } from "react";
+import { usePassedTimeTimer } from "@/lib/hooks/usePassedTimeTimer";
 
 export const PassedTime = ({ startTime }: { startTime: Date }) => {
-  const [passedTime, setPassedTime] = useState(
-    TimeUtils.getPassedTimeString(
-      TimeUtils.getDateDifference(startTime, new Date())
-    )
-  );
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPassedTime(
-        TimeUtils.getPassedTimeString(
-          TimeUtils.getDateDifference(startTime, new Date())
-        )
-      );
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  });
+  const passedTime = usePassedTimeTimer(startTime);
 
   return (
     <div className="flex gap-0.5 flex-col items-end">
