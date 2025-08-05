@@ -1,5 +1,3 @@
-import { WithOfflineSupport } from "@/app/(root)/interface";
-
 export interface GetEntriesForRangeBody {
   userId: string;
   startTime: string;
@@ -8,7 +6,7 @@ export interface GetEntriesForRangeBody {
   currentPage?: string;
 }
 
-export interface GetEntriesForRangeParsedBody extends WithOfflineSupport {
+export interface GetEntriesForRangeParsedBody  {
   userId: number;
   startTime: number;
   endTime: number;

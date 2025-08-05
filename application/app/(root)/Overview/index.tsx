@@ -5,31 +5,16 @@ import { useGlobalStore } from "../store";
 import { BarChart } from "lucide-react";
 import { EntryRangeTab } from "./TodayTab";
 import { Duration } from "./TodayTab/interface";
-import { getProjectSummary, getTopicSummary } from "./utils";
+import { getAllEntries, getProjectSummary, getTopicSummary } from "./utils";
 import { TimeUtils } from "@/lib/utils/timeUtils";
 
 export const Overview = () => {
   const store = useGlobalStore();
-  
 
-
-
-  // const projectSummary = entries.reduce((acc, entry) => {
-  //   acc[entry.project] = acc[entry.project] || 0;
-  //   return acc;
-  // }, {} as Record<string, number>);
-
-  // const topicSummary = entries.reduce((acc, entry) => {
-  //   acc[entry.topic] = acc[entry.topic] || 0;
-  //   return acc;
-  // }, {} as Record<string, number>);
-
-  // const totalTimeToday = todayEntries.reduce(
-  //   (sum, entry) => sum + entry.startTime, // Calculate duration
-  //   0
-  // );
-
-  // const selectedDate = "Now"
+  // Get all entries including active timer for summary
+  const allEntries = getAllEntries(store);
+  const projectSummary = getProjectSummary(allEntries);
+  const topicSummary = getTopicSummary(allEntries);
 
   return (
     <Tabs defaultValue="today" className="space-y-6 w-full">

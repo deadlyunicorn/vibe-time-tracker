@@ -10,12 +10,12 @@ export interface AddTopicBody {
   topic: string;
 }
 
-export interface CreateEntryBody extends WithOfflineSupport {
+export interface CreateEntryBody {
   userId: number;
   entry: TimeEntry;
 }
 
-export interface FinalizeEntryBody extends WithOfflineSupport {
+export interface FinalizeEntryBody {
   userId: number;
   entry: TimeEntry & { endTime: number };
 }
@@ -29,7 +29,7 @@ export interface UpdateEntryBody {
   entry: TimeEntry;
 }
 
-export interface DeleteEntryBody extends WithOfflineSupport {
+export interface DeleteEntryBody {
   userId: number;
   startTime: number;
 }

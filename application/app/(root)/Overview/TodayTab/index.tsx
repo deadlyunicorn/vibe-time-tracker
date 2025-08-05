@@ -24,7 +24,7 @@ const getEntriesForDuration = (entries: TimeEntry[], duration: Duration) => {
     case Duration.month:
       return getThisMonthsEntries(entries);
     default:
-      return getTodaysEntries(entries);
+      return entries;
   }
 };
 
