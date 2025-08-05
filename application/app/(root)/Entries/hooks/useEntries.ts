@@ -1,6 +1,7 @@
 import { useGlobalStore } from "@/app/(root)/store";
 import { EntryService } from "@/lib/client-service/entries";
 import { UserService } from "@/lib/client-service/users";
+import { getIsOffline } from "@/lib/utils/offline";
 import { useEffect, useState } from "react";
 
 /**
@@ -18,7 +19,7 @@ export const useLoadEntries = () => {
       userId,
       endTime: Date.now(),
       startTime: 0,
-      isOnline: navigator.onLine,
+      isOnline: !getIsOffline(),
     })
       .then((entries) => {
         store.loadEntries(entries);

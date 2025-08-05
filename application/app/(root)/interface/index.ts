@@ -5,3 +5,7 @@ export interface TimeEntry {
   endTime?: number;
   description?: string | null;
 }
+
+export interface WithOfflineSupport {
+  isOnline: boolean;
+}

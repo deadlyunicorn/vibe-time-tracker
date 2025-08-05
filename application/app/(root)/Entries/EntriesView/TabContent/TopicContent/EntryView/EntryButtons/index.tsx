@@ -9,6 +9,7 @@ import { UserService } from "@/lib/client-service/users";
 import { Utils } from "@/lib/utils/index";
 import { AlertType } from "@/components/AlertListener/interface";
 import { UserNotLoggedInError } from "@/lib/errors/general-errors";
+import { getIsOffline, OfflineStorageUtils } from "@/lib/utils/offline";
 
 export const EntryButtons = ({ entry }: { entry: TimeEntry }) => {
   const isActive = !entry.endTime;
@@ -29,9 +30,9 @@ export const EntryButtons = ({ entry }: { entry: TimeEntry }) => {
       await EntryService.deleteEntry({
         userId,
         startTime: entry.startTime,
+        isOnline: !getIsOffline(),
       });
 
-      // Remove from store
       store.removeEntry(entry.startTime);
 
       Utils.dispatchAlert({

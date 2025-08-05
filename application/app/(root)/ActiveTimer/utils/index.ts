@@ -40,6 +40,11 @@ export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
   if (!timer) return;
 
   const endTime = new Date().getTime();
+  const finalizedTimer = {
+    ...timer,
+    endTime,
+    description: Utils.makeEmptyStringNull(timer.description),
+  };
 
   Utils.alertOnError(async () => {
     const userId = UserService.getCurrentUserId();
@@ -47,12 +52,10 @@ export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
       throw new UserNotLoggedInError(userId);
     }
 
+    // Online - proceed with normal API call
     return EntryService.finalize({
-      entry: {
-        ...timer,
-        endTime,
-        description: Utils.makeEmptyStringNull(timer.description),
-      },
+      entry: finalizedTimer,
+      isOnline: !getIsOffline(),
       userId,
     })
       .then((response) => {
@@ -83,6 +86,7 @@ export const onUpdateTimer = async (
   await EntryService.update({
     entry: timer,
     userId,
+    isOnline: !getIsOffline(),
   });
 
   Utils.dispatchAlert({

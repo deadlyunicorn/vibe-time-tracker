@@ -5,6 +5,7 @@ import { TimeEntry } from "../interface";
 import { EntryService } from "@/lib/client-service/entries";
 import { AlertType } from "@/components/AlertListener/interface";
 import { IGlobalState } from "../store/interface";
+import { getIsOffline } from "@/lib/utils/offline";
 
 interface IStartTimer {
   project: string;
@@ -23,7 +24,7 @@ export const handleStartTimer = ({
 
   const startTime = new Date().getTime();
 
-  Utils.alertOnError(() => {
+  Utils.alertOnError(async () => {
     const userId = UserService.getCurrentUserId();
     if (!userId) {
       throw new UserNotLoggedInError(userId);
@@ -42,6 +43,7 @@ export const handleStartTimer = ({
         ...timer,
         description: Utils.makeEmptyStringNull(description),
       },
+      isOnline: !getIsOffline(),
     })
       .then((response) => {
         Utils.dispatchAlert({

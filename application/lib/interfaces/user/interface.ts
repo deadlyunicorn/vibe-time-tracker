@@ -1,4 +1,4 @@
-import { TimeEntry } from "@/app/(root)/interface";
+import { TimeEntry, WithOfflineSupport } from "@/app/(root)/interface";
 
 export interface AddProjectBody {
   userId: number;
@@ -10,12 +10,12 @@ export interface AddTopicBody {
   topic: string;
 }
 
-export interface CreateEntryBody {
+export interface CreateEntryBody extends WithOfflineSupport {
   userId: number;
   entry: TimeEntry;
 }
 
-export interface FinalizeEntryBody {
+export interface FinalizeEntryBody extends WithOfflineSupport {
   userId: number;
   entry: TimeEntry & { endTime: number };
 }
@@ -29,7 +29,7 @@ export interface UpdateEntryBody {
   entry: TimeEntry;
 }
 
-export interface DeleteEntryBody {
+export interface DeleteEntryBody extends WithOfflineSupport {
   userId: number;
   startTime: number;
 }
