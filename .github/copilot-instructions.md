@@ -79,6 +79,27 @@ interface TimeEntry {
 
 **Validation**: Zod schemas in API routes, custom validators in `lib/validators/`.
 
+
+**Naming conventions**: Always give meaninigful names. Abbreviations are prohibited, 
+  e.g. 
+  sw -> BAD
+  service_worker -> GOOD!
+
+**No hard-coded strings**: If a text string is going to be used in more than one place then it needs to be a constant.
+
+**"ANY" will get you in prison**: :any type is not allowed. We use typescript. Everything must have an interface, else it is illegal.
+
+**DRY**: Don't Repeat Yourself. If you find yourself writing the same code multiple times, consider refactoring it into a reusable function or component!
+
+**Keeping history**: As your changes may not be committed immediately you need to keep an action log outside of .git. Make sure to ALWAYS update the "agent.log" file at the end of every prompt where you separate actions you have performed. This is MANDATORY - never skip updating the agent.log. The entries should look something like this:
+
+---
+<No. [entry index]> <Date [Unix MS since Epoch]>
+
+[Actions...]
+[TODOs... (not completed in this prompt)]
+---
+
 ## Integration Points
 
 **MongoDB**: Direct connection via `lib/db/mongodb.ts`, collections accessed through `getCollections()`.
@@ -98,3 +119,40 @@ interface TimeEntry {
 4. Update interfaces in `lib/interfaces/`
 
 **Error Recovery**: All user actions wrapped in `Utils.alertOnError()` - errors show as toast notifications via `AlertListener` component.
+
+**Command Execution**: Before attempting to run any command you should first check the OS you are currently using. The commands are different for Windows and Unix-based systems.
+
+**Event Handling**: Use the `useEventListener` hook from `lib/hooks/useEventListener` for all event listeners instead of manually managing addEventListener/removeEventListener.
+
+**Single Responsibility useEffects**: Each useEffect should have a single, clear purpose. Split complex effects into multiple focused effects:
+```typescript
+// BAD - multiple responsibilities in one effect
+useEffect(() => {
+  setInitialState();
+  setupEventListeners();
+  fetchData();
+}, []);
+
+// GOOD - separate focused effects
+useEffect(() => {
+  setInitialState();
+}, []);
+
+useEffect(() => {
+  const cleanup = setupEventListeners();
+  return cleanup;
+}, []);
+
+useEffect(() => {
+  fetchData();
+}, []);
+```
+
+**Event Listener Pattern**: Always use the useEventListener hook:
+```typescript
+import { useEventListener } from '@/lib/hooks/useEventListener';
+
+// Use this instead of manual addEventListener
+useEventListener('online', handleOnline);
+useEventListener('offline', handleOffline);
+```
