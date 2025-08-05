@@ -1,0 +1,18 @@
+{
+  "name": "Vibe Time Tracker",
+  "short_name": "Time Tracker",
+  "description": "A modern time tracking PWA for productivity enthusiasts",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities", "business"],
+  "lang": "en",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "display_override": ["window-controls-overlay"],
+  "edge_side_panel": {
+    "preferred_width": 350
+  }
+}
