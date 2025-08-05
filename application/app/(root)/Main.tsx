@@ -1,8 +1,8 @@
-import { Loader2 } from "lucide-react";
 import { ActiveTimer } from "./ActiveTimer";
 import { Header } from "./Header";
 import { Overview } from "./Overview";
 import { QuickTimer } from "./QuickTimer";
+import { LoadingIndicator } from "@/components/ui/loadingIndicator";
 
 interface MainViewProps {
   hasBeenInitiated: boolean;

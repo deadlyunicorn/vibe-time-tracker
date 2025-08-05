@@ -12,6 +12,8 @@ import { AddEntryDialogButton } from "./AddEntryDialog";
 import { getTotalPassedTimeForEntriesString } from "../../Entries/EntriesView/TabContent/TopicContent/utils";
 import { Duration } from "./interface";
 import { TimeEntry } from "../../interface";
+import { LoadingIndicator } from "@/components/ui/loadingIndicator";
+import { Card } from "@/components/ui/card";
 
 const getEntriesForDuration = (entries: TimeEntry[], duration: Duration) => {
   switch (duration) {
@@ -42,7 +44,7 @@ const getDurationLabel = (duration: Duration) => {
 export const EntryRangeTab = ({ duration }: { duration: Duration }) => {
   const store = useGlobalStore();
 
-  const { loading } = useLoadEntries();
+  const { loading, hasFailed } = useLoadEntries();
 
   const allEntriesForDuration = getEntriesForDuration(
     getAllEntries(store),
@@ -67,9 +69,11 @@ export const EntryRangeTab = ({ duration }: { duration: Duration }) => {
 
       <div className="space-y-4">
         {loading ? (
-          "loadingComponent"
+          <Card className="px-4 py-24 flex items-center justify-center">
+            <LoadingIndicator />
+          </Card>
         ) : allEntriesForDuration.length === 0 ? (
-          <NoEntriesView />
+          <NoEntriesView hasFailed={hasFailed} />
         ) : (
           <EntriesView filteredEntries={allEntriesForDuration} />
         )}
