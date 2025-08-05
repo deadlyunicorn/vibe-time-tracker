@@ -8,7 +8,7 @@ export interface TabContentProps {
   entriesForProject: Array<TimeEntry>;
 }
 
-export const TabContent = ({ project, entriesForProject }: TabContentProps) => {
+export const EntryTabContent = ({ project, entriesForProject }: TabContentProps) => {
   const entriesByTopic = getEntriesGroupedByTopics(entriesForProject);
   const topics = Object.keys(entriesByTopic);
 

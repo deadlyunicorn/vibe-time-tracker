@@ -1,10 +1,6 @@
 // Custom hooks for extracting useEffect logic
 export { useAppInitialization } from './useAppInitialization';
 export { useAutoSyncSetup } from './useAutoSyncSetup';
-export { usePwaInstallPrompt } from './usePwaInstallPrompt';
-export { useServiceWorkerRegistration } from './useServiceWorkerRegistration';
-export { useOfflineIndicator } from './useOfflineIndicator';
-export { usePwaUpdateNotification } from './usePwaUpdateNotification';
 export { useAuthentication } from './useAuthentication';
 export { useAlertCleanup } from './useAlertCleanup';
 export { useSelectedProjectInit } from './useSelectedProjectInit';

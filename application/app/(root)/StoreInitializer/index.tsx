@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppInitialization } from "@/lib/hooks/useAppInitialization";
+import { useAppInitialization } from "@/lib/hooks";
 import { useAutoSyncSetup } from "@/lib/hooks/useAutoSyncSetup";
 
 export const StoreInitializer = () => {

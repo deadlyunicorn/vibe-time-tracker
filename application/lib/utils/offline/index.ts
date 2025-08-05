@@ -2,6 +2,10 @@ import { TimeEntry } from "@/app/(root)/interface";
 import { Utils } from "..";
 import { AlertType } from "@/components/AlertListener/interface";
 
+export const getIsOffline = () => {
+  return !navigator.onLine;
+}
+
 export namespace OfflineIndicators {
   // Handle online event
   export const showIsOnline = () => {

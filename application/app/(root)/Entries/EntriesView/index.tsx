@@ -5,7 +5,7 @@ import {
 } from "../../Overview/utils";
 import { Tabs } from "@/components/ui/tabs";
 import { TabList } from "./TabList";
-import { TabContent } from "./TabContent";
+import { EntryTabContent } from "./TabContent";
 import { useSelectedProjectInit } from "@/lib/hooks/useSelectedProjectInit";
 
 interface EntriesViewProps {
@@ -39,7 +39,7 @@ export const EntriesView = ({ filteredEntries }: EntriesViewProps = {}) => {
     >
       <TabList projects={projects} />
       {projects.map((project) => (
-        <TabContent
+        <EntryTabContent
           project={project}
           entriesForProject={entriesByProject[project]}
           key={`${project}_tab_content`}

@@ -34,7 +34,7 @@ export const MainView = ({
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <Loader2 className="animate-spin" />
+      <LoadingIndicator />
     </div>
   );
 };

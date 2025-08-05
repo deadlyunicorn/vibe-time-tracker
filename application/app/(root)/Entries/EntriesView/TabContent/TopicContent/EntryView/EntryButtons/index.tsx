@@ -48,14 +48,14 @@ export const EntryButtons = ({ entry }: { entry: TimeEntry }) => {
         <Button variant="ghost" size="sm" onClick={() => editEntry(entry)}>
           <Edit className="w-4 h-4" />
         </Button>
-        <Button 
-          variant="ghost" 
-          size="sm" 
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={() => setShowDeleteDialog(true)}
         >
           <Trash className="w-4 h-4" />
         </Button>
-        
+
         <ConfirmDialog
           open={showDeleteDialog}
           onOpenChange={setShowDeleteDialog}

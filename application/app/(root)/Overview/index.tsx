@@ -34,13 +34,19 @@ export const Overview = () => {
   return (
     <Tabs defaultValue="today" className="space-y-6 w-full">
       <TabsList>
-        <TabsTrigger value="today">Today</TabsTrigger>
+        {Object.values(Duration).map((duration) => (
+          <TabsTrigger className="capitalize" key={duration} value={duration}>
+            {duration}
+          </TabsTrigger>
+        ))}
         <TabsTrigger value="summary">Summary</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="today" className="space-y-6">
-        <TodayTab />
-      </TabsContent>
+      {Object.values(Duration).map((duration) => (
+        <TabsContent value={duration} key={duration} className="space-y-6">
+          <EntryRangeTab duration={duration} />
+        </TabsContent>
+      ))}
 
       <TabsContent value="summary" className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
