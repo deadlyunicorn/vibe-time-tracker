@@ -1,10 +1,4 @@
 import {
-  AlignVerticalSpaceAroundIcon,
-  ArrowDown,
-  ArrowDown01,
-  ArrowDownCircle,
-  Expand,
-  LogInIcon,
   SquareStackIcon,
 } from "lucide-react";
 

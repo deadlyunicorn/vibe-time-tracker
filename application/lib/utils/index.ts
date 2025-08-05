@@ -1,10 +1,7 @@
-import prettyMs from "pretty-ms";
-import { TimeUtils } from "./timeUtils";
 import { AlertType, IAlert } from "@/components/AlertListener/interface";
 import { Events } from "../consts";
 import { ValidationError } from "../errors";
 
-/* eslint-disable @typescript-eslint/no-namespace */
 export namespace Utils {
   // export const calculateDuration = (start: number, end: number): number => {
   //   const startDate = new Date(`2000-01-01T${start}`);

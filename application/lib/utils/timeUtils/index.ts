@@ -1,6 +1,5 @@
 import prettyMs from "pretty-ms";
 
-/* eslint-disable @typescript-eslint/no-namespace */
 export namespace TimeUtils {
   export const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 

@@ -1,4 +1,4 @@
-import zod, { ZodString } from "zod";
+import zod from "zod";
 
 export const UserIdValidator = zod
   .number({ message: "User ID is required" })

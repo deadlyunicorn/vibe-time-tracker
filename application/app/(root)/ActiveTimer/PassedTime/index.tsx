@@ -1,5 +1,4 @@
 "use client";
-import { Utils } from "@/lib/utils/index";
 import { usePassedTimeTimer } from "@/lib/hooks/usePassedTimeTimer";
 
 export const PassedTime = ({ startTime }: { startTime: Date }) => {

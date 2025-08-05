@@ -1,6 +1,5 @@
 import { TimeEntry } from "@/app/(root)/interface";
 import { TimeUtils } from "@/lib/utils/timeUtils";
-import { Dot, DotIcon } from "lucide-react";
 
 export const EntryViewTimeDetails = ({ entry }: { entry: TimeEntry }) => {
   const isActive = !entry.endTime;

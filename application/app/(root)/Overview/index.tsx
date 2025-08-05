@@ -1,26 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { NoEntriesView } from "../Entries/NoEntriesView";
-import { EntriesView } from "../Entries/EntriesView";
 import { useGlobalStore } from "../store";
-import { TimeEntry } from "../interface";
-import { useState } from "react";
-import { BarChart, Plus } from "lucide-react";
-import { useLoadEntries } from "../Entries/hooks/useEntries";
-import { TodayTab } from "./TodayTab";
+import { BarChart } from "lucide-react";
+import { EntryRangeTab } from "./TodayTab";
+import { Duration } from "./TodayTab/interface";
+import { getProjectSummary, getTopicSummary } from "./utils";
+import { TimeUtils } from "@/lib/utils/timeUtils";
 
 export const Overview = () => {
   const store = useGlobalStore();
