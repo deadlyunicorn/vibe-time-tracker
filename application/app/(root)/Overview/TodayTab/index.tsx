@@ -8,12 +8,12 @@ import {
   getThisMonthsEntries,
   getAllEntries,
 } from "../utils";
-import { AddEntryDialogButton } from "./AddEntryDialog";
-import { getTotalPassedTimeForEntriesString } from "../../Entries/EntriesView/TabContent/TopicContent/utils";
 import { Duration } from "./interface";
 import { TimeEntry } from "../../interface";
 import { LoadingIndicator } from "@/components/ui/loadingIndicator";
 import { Card } from "@/components/ui/card";
+import { SummaryTabContent } from "../SummaryTab";
+import { SummaryForDuration } from "./SummaryForDuration";
 
 const getEntriesForDuration = (entries: TimeEntry[], duration: Duration) => {
   switch (duration) {
@@ -28,20 +28,11 @@ const getEntriesForDuration = (entries: TimeEntry[], duration: Duration) => {
   }
 };
 
-const getDurationLabel = (duration: Duration) => {
-  switch (duration) {
-    case Duration.day:
-      return "Today's Entries";
-    case Duration.week:
-      return "This Week's Entries";
-    case Duration.month:
-      return "This Month's Entries";
-    default:
-      return "Today's Entries";
-  }
-};
-
-export const EntryRangeTab = ({ duration }: { duration: Duration }) => {
+export const EntryRangeTab = ({
+  duration,
+}: {
+  duration: Duration & "summary";
+}) => {
   const store = useGlobalStore();
 
   const { loading, hasFailed } = useLoadEntries();
@@ -51,21 +42,14 @@ export const EntryRangeTab = ({ duration }: { duration: Duration }) => {
     duration
   );
 
-  const durationLabel = getDurationLabel(duration);
-
   return (
     <>
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-semibold">{durationLabel}</h2>
-          <div className="flex items-center justify-between flex-col">
-            <h1 className="font-medium">
-              {getTotalPassedTimeForEntriesString(allEntriesForDuration)}
-            </h1>
-          </div>
-        </div>
-        <AddEntryDialogButton />
-      </div>
+      {duration !== "summary" && (
+        <SummaryForDuration
+          duration={duration}
+          entriesForDuration={allEntriesForDuration}
+        />
+      )}
 
       <div className="space-y-4">
         {loading ? (
@@ -74,6 +58,8 @@ export const EntryRangeTab = ({ duration }: { duration: Duration }) => {
           </Card>
         ) : allEntriesForDuration.length === 0 ? (
           <NoEntriesView hasFailed={hasFailed} />
+        ) : duration === "summary" ? (
+          <SummaryTabContent entries={allEntriesForDuration} />
         ) : (
           <EntriesView filteredEntries={allEntriesForDuration} />
         )}

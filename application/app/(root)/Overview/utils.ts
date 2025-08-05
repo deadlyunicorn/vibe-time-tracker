@@ -1,4 +1,6 @@
+import { TimeUtils } from "@/lib/utils/timeUtils";
 import { TimeEntry } from "../interface";
+import { IGlobalState } from "../store/interface";
 
 export const getProjectsFromEntries = (entries: Array<TimeEntry>) => {
   return Array.from(new Set(entries.map((entry) => entry.project)));
@@ -90,3 +92,55 @@ export const getAllEntries = (store: IGlobalState) => {
   return [...store.entries, ...(store.timer ? [store.timer] : [])];
 };
 
+const getTotalPassedTimeForEntries = (entries: Array<TimeEntry>): number => {
+  return entries.reduce(
+    (acc, entry) =>
+      acc +
+      TimeUtils.getDateDifference(
+        new Date(entry.startTime),
+        entry.endTime ? new Date(entry.endTime) : new Date()
+      ),
+    0
+  );
+};
+
+export const getTotalPassedTimeForEntriesString = (
+  entries: Array<TimeEntry>
+): string => {
+  const totalPassedTime = getTotalPassedTimeForEntries(entries);
+  return TimeUtils.getPassedTimeString(totalPassedTime);
+};
+
+const sortNumberDescending = (a: number, b: number) => b - a;
+
+const getSummaryForGroup = (
+  entriesGroupMap: Record<string, Array<TimeEntry>>
+) => {
+  const summaryUnsorted: Record<string, number> = {};
+
+  for (const [group, entries] of Object.entries(entriesGroupMap)) {
+    summaryUnsorted[group] = getTotalPassedTimeForEntries(entries);
+  }
+  // Sort by duration (descending)
+  const sortedEntries = Object.entries(summaryUnsorted).sort(
+    ([, projectADuration], [, projectBDuration]) =>
+      sortNumberDescending(projectADuration, projectBDuration)
+  );
+
+  const summarySorted: Record<string, number> = {};
+
+  for (const [project, duration] of sortedEntries) {
+    summarySorted[project] = duration;
+  }
+  return summarySorted;
+};
+
+export const getProjectSummary = (entries: Array<TimeEntry>) => {
+  const entriesByProject = getEntriesGroupedByProjects(entries);
+  return getSummaryForGroup(entriesByProject);
+};
+
+export const getTopicSummary = (entries: Array<TimeEntry>) => {
+  const entriesByTopic = getEntriesGroupedByTopics(entries);
+  return getSummaryForGroup(entriesByTopic);
+};
