@@ -16,6 +16,24 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vibe Time Tracker",
   description: "A Time Tracker that vibes with you",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Vibe Time Tracker",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  themeColor: "#000000",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  icons: {
+    icon: "/icons/icon.png",
+  },
 };
 
 export default function RootLayout({
