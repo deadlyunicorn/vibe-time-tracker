@@ -17,6 +17,7 @@ export interface IGlobalState {
   initState: (user: UserModel, activeTimer?: TimeEntry) => void;
   shouldRestartState: boolean;
   restartState: () => void;
+  setStateRestarted: () => void;
   finalizeTimer: (timer: TimeEntry) => void;
   setInitializationFailed: () => void;
   selectedProject: string;

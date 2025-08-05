@@ -34,7 +34,9 @@ export const useGlobalStore = create<IGlobalState>()(
         })),
       removeEntry: (startTime) =>
         set((state) => ({
-          entries: state.entries.filter(entry => entry.startTime !== startTime),
+          entries: state.entries.filter(
+            (entry) => entry.startTime !== startTime
+          ),
         })),
       loadEntries: (entries: Array<TimeEntry>) =>
         set(() => ({
@@ -58,10 +60,15 @@ export const useGlobalStore = create<IGlobalState>()(
           hasBeenInitiated: true,
         }));
       },
-      shouldRestartState: false,
+      shouldRestartState: true,
       restartState: () => {
-        set((state) => ({
-          shouldRestartState: !state.shouldRestartState,
+        set(() => ({
+          shouldRestartState: true,
+        }));
+      },
+      setStateRestarted: () => {
+        set(() => ({
+          shouldRestartState: false,
         }));
       },
       setInitializationFailed: () => {
