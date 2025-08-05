@@ -1,0 +1,4 @@
+*/**/node_modules*
+application/public/fallback-*.js
+application/public/swe-worker-*.js
+sw.js
