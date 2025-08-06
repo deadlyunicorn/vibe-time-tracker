@@ -5,5 +5,5 @@ export const useInterval = (action: () => void, duration: number) => {
     const interval = setInterval(action, duration);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [action, duration]);
 };

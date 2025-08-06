@@ -33,7 +33,7 @@ export const QuickTimer = () => {
       return _lastProject;
     }
     return "";
-  }, []);
+  }, [availableProjects]);
 
   const [project, setProject] = useState(lastProject);
   const [description, setDescription] = useState<string>("");

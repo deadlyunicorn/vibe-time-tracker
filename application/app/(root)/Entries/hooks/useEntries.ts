@@ -1,7 +1,7 @@
 import { useGlobalStore } from "@/app/(root)/store";
 import { EntryService } from "@/lib/client-service/entries";
 import { UserService } from "@/lib/client-service/users";
-import { getIsOffline } from "@/lib/utils/offline";
+import { getIsOffline } from "@/lib/utils/cache";
 import { useEffect, useState } from "react";
 
 /**

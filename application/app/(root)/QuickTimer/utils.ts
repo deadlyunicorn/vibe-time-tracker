@@ -5,7 +5,7 @@ import { TimeEntry } from "../interface";
 import { EntryService } from "@/lib/client-service/entries";
 import { AlertType } from "@/components/AlertListener/interface";
 import { IGlobalState } from "../store/interface";
-import { getIsOffline } from "@/lib/utils/offline";
+import { getIsOffline } from "@/lib/utils/cache";
 
 interface IStartTimer {
   project: string;

@@ -5,7 +5,7 @@ import { UserNotLoggedInError } from "@/lib/errors/general-errors";
 import { EntryService } from "@/lib/client-service/entries";
 import { AlertType } from "@/components/AlertListener/interface";
 import { IGlobalState } from "../../store/interface";
-import { getIsOffline, OfflineStorageUtils } from "@/lib/utils/offline";
+import { getIsOffline } from "@/lib/utils/cache";
 
 export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
   if (!timer) return;

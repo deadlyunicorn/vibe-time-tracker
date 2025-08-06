@@ -1,7 +1,7 @@
 import { AlertType, IAlert } from "@/components/AlertListener/interface";
 import { Events } from "../consts";
 import { ValidationError } from "../errors";
-import { getIsOffline } from "./offline";
+import { getIsOffline } from "./cache";
 
 export namespace Utils {
   // export const calculateDuration = (start: number, end: number): number => {

@@ -1,5 +1,4 @@
-import { UserRepository } from "@/lib/db/users";
-import { ClientFriendlyError, withErrorHandling } from "@/lib/errors";
+import { withErrorHandling } from "@/lib/errors";
 import { AddTopicBody } from "@/lib/interfaces/user/interface";
 import { UserServerService } from "@/lib/server-service/users";
 import { TopicValidator, UserIdValidator } from "@/lib/validators";

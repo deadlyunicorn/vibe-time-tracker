@@ -1,6 +1,7 @@
 import { useGlobalStore } from "../../store";
 import { TimeEntry } from "../../interface";
 import {
+  getAllEntries,
   getEntriesGroupedByProjects,
 } from "../../Overview/utils";
 import { Tabs } from "@/components/ui/tabs";
@@ -14,22 +15,14 @@ interface EntriesViewProps {
 
 export const EntriesView = ({ filteredEntries }: EntriesViewProps = {}) => {
   const store = useGlobalStore();
-  const entries = store.entries;
-  
+
   // Use filtered entries if provided, otherwise use all entries with active timer
-  const entriesToDisplay = filteredEntries ?? [...entries, ...(store.timer ? [store.timer] : [])];
+  const entriesToDisplay = filteredEntries ?? getAllEntries(store);
+
   const entriesByProject = getEntriesGroupedByProjects(entriesToDisplay);
   const projects = Object.keys(entriesByProject);
 
   useSelectedProjectInit(projects);
-
-  const editEntry = (entry: TimeEntry) => {
-    alert(entry);
-  };
-
-  const deleteEntry = (id: number) => {
-    alert(id);
-  };
 
   return (
     <Tabs

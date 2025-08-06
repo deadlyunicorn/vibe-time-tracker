@@ -1,4 +1,4 @@
-import { TimeEntry, WithOfflineSupport } from "@/app/(root)/interface";
+import { TimeEntry } from "@/app/(root)/interface";
 
 export interface AddProjectBody {
   userId: number;

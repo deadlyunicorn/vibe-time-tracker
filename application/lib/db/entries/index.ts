@@ -117,8 +117,3 @@ export namespace TimersRepository {
     );
   };
 }
-
-const getEntries = async () => {
-  const { entriesCollection } = await getCollections();
-  return entriesCollection.findOne({});
-};

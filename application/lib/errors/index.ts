@@ -21,6 +21,12 @@ export class ValidationError extends ClientFriendlyError {
   }
 }
 
+export class NotYetImplementedError extends ClientFriendlyError {
+  constructor() {
+    super("Not yet implemented", "Feature has not yet been implemented", 500);
+  }
+}
+
 const trustedErrorHandle = (error: unknown) => {
   if (error instanceof ZodError) {
     return {
@@ -66,7 +72,7 @@ export const withErrorHandling =
   };
 
 export const parseErrorFromResponse = async (response: Response) => {
-  const json = await response.json().catch((_) => {
+  const json = await response.json().catch(() => {
     return null;
   });
 
