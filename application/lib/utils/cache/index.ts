@@ -1,10 +1,12 @@
 import { TimeEntry } from "@/app/(root)/interface";
 import { Utils } from "..";
 import { AlertType } from "@/components/AlertListener/interface";
+import { UserModel } from "@/lib/db/users/model";
+import { EntryModel } from "@/lib/db/entries/model";
 
 export const getIsOffline = () => {
   return !navigator.onLine;
-}
+};
 
 export namespace OfflineIndicators {
   // Handle online event
@@ -35,17 +37,41 @@ export namespace OfflineIndicators {
       type: AlertType.Info,
     });
   };
+}
 
-  // Handle sync complete event
-  export const handleSyncComplete = () => {
-    const updatedOfflineData = OfflineStorageUtils.getOfflineDataSummary();
+export namespace CacheStorageUtils {
+  const CACHED_TIMER_KEY = "cached-timer";
+  const CACHED_USER_KEY = "cached-user";
 
-    if (!updatedOfflineData.hasOfflineData) {
-      Utils.dispatchAlert({
-        summary: "Sync Complete",
-        description: "All offline data has been synchronized successfully.",
-        type: AlertType.Success,
-      });
+  export const initState = (
+    user: UserModel,
+    activeTimer: undefined | TimeEntry
+  ) => {
+    localStorage.setItem(CACHED_USER_KEY, JSON.stringify(user));
+    localStorage.setItem(CACHED_TIMER_KEY, JSON.stringify(activeTimer));
+  };
+
+  export const getUserInfo = (userId: number) => {
+    const user = JSON.parse(
+      localStorage.get(CACHED_USER_KEY)
+    ) as UserModel | null;
+
+    if (user?.userId != userId) {
+      return null;
     }
+
+    return user;
+  };
+
+  export const getActiveTimer = (userId: number) => {
+    const timer = JSON.parse(localStorage.get(CACHED_TIMER_KEY)) as
+      | EntryModel
+      | undefined;
+
+    if (timer?.userId != userId) {
+      return undefined;
+    }
+
+    return timer;
   };
 }

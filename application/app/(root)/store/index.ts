@@ -7,6 +7,7 @@ import { TimeEntry } from "../interface";
 import { UserModel } from "@/lib/db/users/model";
 import { Utils } from "@/lib/utils/index";
 import { IGlobalState } from "./interface";
+import { CacheStorageUtils } from "@/lib/utils/cache";
 
 export const useGlobalStore = create<IGlobalState>()(
   devtools(
@@ -59,6 +60,8 @@ export const useGlobalStore = create<IGlobalState>()(
           timer,
           hasBeenInitiated: true,
         }));
+
+        CacheStorageUtils.initState(user, activeTimer);
       },
       shouldRestartState: true,
       restartState: () => {

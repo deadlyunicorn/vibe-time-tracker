@@ -43,34 +43,47 @@ export namespace EntryService {
 
     const { data } = (await response.json()) as BaseResponse<EntryModel>;
 
-    return data;
+  export const getActiveTimer = async (
+    userId: number,
+    isOnline: boolean
+  ): Promise<EntryModel | undefined> => {
+    return isOnline
+      ? getActiveTimerStrategy.online(userId)
+      : getActiveTimerStrategy.offline(userId);
   };
 
-  export const getActiveTimer = async (userId: number) => {
-    const queryString = new URLSearchParams({
-      userId: String(userId),
-    }).toString();
+  namespace getActiveTimerStrategy {
+    export const online = async (userId: number) => {
+      const queryString = new URLSearchParams({
+        userId: String(userId),
+      }).toString();
 
-    const response = await fetch(`/api/entries/get-active?${queryString}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    });
+      const response = await fetch(`/api/entries/get-active?${queryString}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      });
 
-    if (!response.ok) {
-      throw await parseErrorFromResponse(response);
-    }
+      if (!response.ok) {
+        throw await parseErrorFromResponse(response);
+      }
 
-    const { data } = (await response.json()) as BaseResponse<EntryModel>;
+      const { data } = (await response.json()) as BaseResponse<
+        EntryModel | undefined
+      >;
 
-    return data;
-  };
+      return data;
+    };
 
-  export const getForRange = async (params: GetEntriesForRangeParsedBody) => {
-    const queryString = new URLSearchParams(
-      Utils.objectValuesToString(params as unknown as Record<string, unknown>)
-    ).toString();
+    export const offline = async (
+      userId: number
+    ): Promise<EntryModel | undefined> => {
+      const timer = CacheStorageUtils.getActiveTimer(userId);
+      return timer;
+    };
+  }
+
 
     const response = await fetch(`/api/entries/get?${queryString}`, {
       headers: {
