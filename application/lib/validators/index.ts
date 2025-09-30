@@ -14,7 +14,7 @@ export const TopicValidator = zod
 
 export const DescriptionValidator = zod
   .string()
-  .min(6, "Description should be at least 6 characters long")
+  .min(3, "Description should be at least 3 characters long")
   .optional()
   .nullable();
 

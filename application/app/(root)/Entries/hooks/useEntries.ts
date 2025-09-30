@@ -18,8 +18,12 @@ export const useLoadEntries = () => {
   useEffect(() => {
     try {
       const isOnline = getIsOnline();
-
-      if (isOnline == onlineRef.current && store.entries) {
+      if (
+        isOnline == onlineRef.current &&
+        store.entries &&
+        store.entries.length > 0 &&
+        !store.shouldRestartState
+      ) {
         return;
       }
 

@@ -37,8 +37,11 @@ export const EntryRangeTab = ({
 
   const { loading, hasFailed } = useLoadEntries();
 
+  const entries = getAllEntries(store);
+
+
   const allEntriesForDuration = getEntriesForDuration(
-    getAllEntries(store),
+    entries,
     duration
   );
 

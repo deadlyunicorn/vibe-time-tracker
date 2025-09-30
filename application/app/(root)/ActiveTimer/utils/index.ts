@@ -40,6 +40,7 @@ export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
       })
       .then(() => {
         store.finalizeTimer(timer);
+        store.restartState();
       });
   });
 };
