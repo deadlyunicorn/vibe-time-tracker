@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { TimeEntry } from "@/app/(root)/interface";
 import { CardExpandableIcon } from "../CardExpandableIcon";
 import { EndActiveTimerAndStartNewOfSelectedTopicButton } from "./EndActiveTimerAndStartNewOfSelectedTopicButton";
+import { useEffect, useState } from "react";
 
 interface TopicPreviewProps {
   entries: Array<TimeEntry>;
@@ -11,6 +12,21 @@ interface TopicPreviewProps {
 }
 
 export const TopicPreview = ({ entries, topic }: TopicPreviewProps) => {
+
+  const [passedTime,setPassedTime] = useState(getTotalPassedTimeForEntriesString(entries));
+
+
+  useEffect(() => {
+    const activeEntry = entries.find((entry) => !entry.endTime);
+    if (activeEntry) {
+      const interval = setInterval(() => {
+        setPassedTime(getTotalPassedTimeForEntriesString(entries));
+      }, 1000); // Update every second
+
+      return () => clearInterval(interval);
+    }
+  })
+
   return (
     <div className="flex justify-between w-full items-center gap-2 relative">
       <CollapsibleTrigger className="flex justify-between w-full">
@@ -24,7 +40,7 @@ export const TopicPreview = ({ entries, topic }: TopicPreviewProps) => {
           <div className="flex items-center justify-between flex-col">
             <p className="text-sm">Topic time</p>
             <h1 className="font-medium">
-              {getTotalPassedTimeForEntriesString(entries)}
+              {passedTime}
             </h1>
           </div>
         </div>

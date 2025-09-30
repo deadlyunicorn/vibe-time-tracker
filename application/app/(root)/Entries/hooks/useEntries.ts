@@ -16,36 +16,42 @@ export const useLoadEntries = () => {
   const onlineRef = useRef(getIsOnline());
 
   useEffect(() => {
-    const isOnline = getIsOnline();
+    try {
+      const isOnline = getIsOnline();
 
-    if (isOnline == onlineRef.current && store.entries) {
-      return;
-    }
+      if (isOnline == onlineRef.current && store.entries) {
+        return;
+      }
 
-    onlineRef.current = isOnline;
+      onlineRef.current = isOnline;
 
-    if (isOnline) {
-      EntryService.getForRange({
-        userId,
-        endTime: Date.now(),
-        startTime: 0,
-      })
-        .then((entries) => {
-          store.loadEntries(entries);
-          setLoading(false);
+      if (isOnline) {
+        EntryService.getForRange({
+          userId,
+          endTime: Date.now(),
+          startTime: 0,
         })
-        .catch((error) => {
-          console.error("[Entries] Failed to load entries:", error);
-          setHasFailed(true);
-          setLoading(false);
-        });
-      return;
-    }
+          .then((entries) => {
+            store.loadEntries(entries);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error("[Entries] Failed to load entries:", error);
+            setHasFailed(true);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+        return;
+      }
 
-    if (!isOnline) {
-      const entries = EntryService.getOfflineEntries();
-      store.loadEntries(entries);
-      return;
+      if (!isOnline) {
+        const entries = EntryService.getOfflineEntries();
+        store.loadEntries(entries);
+        return;
+      }
+    } finally {
+      setLoading(false);
     }
   }, [store, userId]);
 
