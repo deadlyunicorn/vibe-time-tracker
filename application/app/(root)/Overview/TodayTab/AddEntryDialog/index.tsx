@@ -16,7 +16,7 @@ import { useState } from "react";
 
 export const AddEntryDialogButton = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [editingEntry, setEditingEntry] = useState<TimeEntry | null>(null);
+  const [editingEntry, ] = useState<TimeEntry | null>(null);
 
   const [project, setProject] = useState("");
   const [description, setDescription] = useState("");

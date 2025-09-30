@@ -7,7 +7,7 @@ const summaryTab = "summary";
 
 export const Overview = () => {
   return (
-    <Tabs defaultValue="today" className="space-y-6 w-full">
+    <Tabs defaultValue={Duration.day} className="space-y-6 w-full">
       <TabsList>
         {Object.values(Duration).map((duration) => (
           <TabsTrigger className="capitalize" key={duration} value={duration}>

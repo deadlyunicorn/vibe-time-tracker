@@ -5,7 +5,7 @@ import { TimeEntry } from "../interface";
 import { EntryService } from "@/lib/client-service/entries";
 import { AlertType } from "@/components/AlertListener/interface";
 import { IGlobalState } from "../store/interface";
-import { getIsOffline } from "@/lib/utils/cache";
+import { getIsOnline } from "@/lib/utils/cache";
 
 interface IStartTimer {
   project: string;
@@ -43,7 +43,7 @@ export const handleStartTimer = ({
         ...timer,
         description: Utils.makeEmptyStringNull(description),
       },
-      isOnline: !getIsOffline(),
+      isOnline: getIsOnline(),
     })
       .then((response) => {
         Utils.dispatchAlert({

@@ -9,7 +9,7 @@ import { UserService } from "@/lib/client-service/users";
 import { Utils } from "@/lib/utils/index";
 import { AlertType } from "@/components/AlertListener/interface";
 import { UserNotLoggedInError } from "@/lib/errors/general-errors";
-import { getIsOffline, OfflineStorageUtils } from "@/lib/utils/offline";
+import { getIsOnline } from "@/lib/utils/cache";
 
 export const EntryButtons = ({ entry }: { entry: TimeEntry }) => {
   const isActive = !entry.endTime;
@@ -17,7 +17,7 @@ export const EntryButtons = ({ entry }: { entry: TimeEntry }) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const editEntry = (entry: TimeEntry) => {
-    alert("Edit functionality coming soon!");
+    alert("Edit functionality coming soon!" + entry.description);
   };
 
   const deleteEntry = async (entry: TimeEntry) => {
@@ -30,7 +30,7 @@ export const EntryButtons = ({ entry }: { entry: TimeEntry }) => {
       await EntryService.deleteEntry({
         userId,
         startTime: entry.startTime,
-        isOnline: !getIsOffline(),
+        isOnline: getIsOnline(),
       });
 
       store.removeEntry(entry.startTime);

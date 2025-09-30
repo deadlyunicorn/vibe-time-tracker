@@ -1,8 +1,8 @@
 import { useGlobalStore } from "@/app/(root)/store";
 import { EntryService } from "@/lib/client-service/entries";
 import { UserService } from "@/lib/client-service/users";
-import { getIsOffline } from "@/lib/utils/cache";
-import { useEffect, useState } from "react";
+import { getIsOnline } from "@/lib/utils/cache";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Uses the store internally
@@ -13,23 +13,40 @@ export const useLoadEntries = () => {
 
   const [loading, setLoading] = useState(true);
   const [hasFailed, setHasFailed] = useState(false);
+  const onlineRef = useRef(getIsOnline());
 
   useEffect(() => {
-    EntryService.getForRange({
-      userId,
-      endTime: Date.now(),
-      startTime: 0,
-      isOnline: !getIsOffline(),
-    })
-      .then((entries) => {
-        store.loadEntries(entries);
-        setLoading(false);
+    const isOnline = getIsOnline();
+
+    if (isOnline == onlineRef.current && store.entries) {
+      return;
+    }
+
+    onlineRef.current = isOnline;
+
+    if (isOnline) {
+      EntryService.getForRange({
+        userId,
+        endTime: Date.now(),
+        startTime: 0,
       })
-      .catch((error) => {
-        console.error("[Entries] Failed to load entries:", error);
-        setHasFailed(true);
-        setLoading(false);
-      });
+        .then((entries) => {
+          store.loadEntries(entries);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("[Entries] Failed to load entries:", error);
+          setHasFailed(true);
+          setLoading(false);
+        });
+      return;
+    }
+
+    if (!isOnline) {
+      const entries = EntryService.getOfflineEntries();
+      store.loadEntries(entries);
+      return;
+    }
   }, [store, userId]);
 
   return {

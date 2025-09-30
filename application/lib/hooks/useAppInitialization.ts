@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useGlobalStore } from "@/app/(root)/store";
 import { UserService } from "@/lib/client-service/users";
 import { EntryService } from "@/lib/client-service/entries";
-import { Utils } from "@/lib/utils/index";
+import { getIsOnline } from "../utils/cache";
+import { Utils } from "../utils/index";
 
 export const useAppInitialization = () => {
   const store = useGlobalStore();
@@ -14,18 +15,25 @@ export const useAppInitialization = () => {
       return;
     }
 
-    Promise.all([
-      UserService.getInfo(userId),
-      EntryService.getActiveTimer(userId),
-    ])
-      .then(([user, timer]) => {
-        store.initState(user, timer);
-      })
-      .catch((error) => {
-        Utils.alertOnError(() => {
-          store.setInitializationFailed();
-          throw error;
+    const isOnline = getIsOnline();
+
+    if (shouldRestartState) {
+      // Check if we're online before making network requests
+      // Online: fetch fresh data from server
+      Promise.all([
+        UserService.getInfo(userId, isOnline),
+        EntryService.getActiveTimer(userId, isOnline),
+      ])
+        .then(([user, timer]) => {
+          store.initState(user, timer);
+          store.setStateRestarted();
+        })
+        .catch((error) => {
+          Utils.alertOnError(() => {
+            store.setInitializationFailed();
+            throw error;
+          });
         });
-      });
+    }
   }, [shouldRestartState, store]);
 };

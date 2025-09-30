@@ -1,9 +1,10 @@
 import { MongoClient } from "mongodb";
 import { syncCollections } from "./helpers/sync";
 import { SyncMetaCollection } from "./interface";
+import "dotenv/config";
 
-const localUri = process.env.REMOTE_URI;
-const remoteUri = process.env.LOCAL_URI;
+const localUri = process.env.LOCAL_URI;
+const remoteUri = process.env.REMOTE_URI;
 
 const database = "TimeTracker";
 const metaCollection = "syncMeta";

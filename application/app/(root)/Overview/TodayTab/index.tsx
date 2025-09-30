@@ -50,7 +50,6 @@ export const EntryRangeTab = ({
           entriesForDuration={allEntriesForDuration}
         />
       )}
-
       <div className="space-y-4">
         {loading ? (
           <Card className="px-4 py-24 flex items-center justify-center">

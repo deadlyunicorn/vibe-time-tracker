@@ -1,7 +1,7 @@
 import { AlertType, IAlert } from "@/components/AlertListener/interface";
 import { Events } from "../consts";
 import { ValidationError } from "../errors";
-import { getIsOffline } from "./cache";
+import { getIsOnline } from "./cache";
 
 export namespace Utils {
   // export const calculateDuration = (start: number, end: number): number => {
@@ -25,7 +25,7 @@ export namespace Utils {
 
   export const dispatchAlert = (alert: IAlert) => {
 
-    const isOffline = getIsOffline();
+    const isOffline = !getIsOnline();
 
     if (isOffline) {
       alert.summary += " (Offline)";

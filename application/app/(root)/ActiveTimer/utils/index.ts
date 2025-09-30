@@ -5,7 +5,7 @@ import { UserNotLoggedInError } from "@/lib/errors/general-errors";
 import { EntryService } from "@/lib/client-service/entries";
 import { AlertType } from "@/components/AlertListener/interface";
 import { IGlobalState } from "../../store/interface";
-import { getIsOffline } from "@/lib/utils/cache";
+import { getIsOnline } from "@/lib/utils/cache";
 
 export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
   if (!timer) return;
@@ -23,11 +23,12 @@ export const onStopTimer = (timer: TimeEntry, store: IGlobalState) => {
       throw new UserNotLoggedInError(userId);
     }
 
-    // Online - proceed with normal API call
+    const isOnline = getIsOnline();
+
     return EntryService.finalize({
       entry: finalizedTimer,
-      isOnline: !getIsOffline(),
       userId,
+      isOnline,
     })
       .then((response) => {
         Utils.dispatchAlert({
@@ -54,10 +55,12 @@ export const onUpdateTimer = async (
     throw new UserNotLoggedInError(userId);
   }
 
+  const isOnline = getIsOnline();
+
   await EntryService.update({
     entry: timer,
     userId,
-    isOnline: !getIsOffline(),
+    isOnline,
   });
 
   Utils.dispatchAlert({
